@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='cupcakes',
+            model_name='cupcake',
             name='imagem_estatica',
             field=models.CharField(blank=True, max_length=255),
         ),
