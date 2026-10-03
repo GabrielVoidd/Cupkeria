@@ -1,0 +1,379 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background-color: #f8f9fb;
+
+    color: #111827;
+}
+
+
+/* TOPO */
+
+.topo {
+    min-height: 66px;
+
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 40px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+
+.marca {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-weight: bold;
+    font-size: 18px;
+
+    color: #111827;
+
+    text-decoration: none;
+}
+
+
+.logo {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background-color: #f52c91;
+}
+
+
+.acoes-topo {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.meus-pedidos-topo {
+    color: #374151;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.meus-pedidos-topo:hover {
+    color: #f00079;
+}
+
+
+.carrinho-topo {
+    text-decoration: none;
+
+    font-size: 24px;
+
+    color: #111827;
+}
+
+
+/* FILTROS */
+
+.filtros {
+    display: flex;
+
+    gap: 12px;
+
+    padding: 14px 40px;
+
+    background-color: white;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+
+.filtro {
+    padding: 10px 23px;
+
+    background-color: #f3f4f6;
+
+    border-radius: 22px;
+
+    text-decoration: none;
+
+    color: #374151;
+
+    transition: 0.2s;
+}
+
+
+.filtro:hover {
+    background-color: #e5e7eb;
+}
+
+
+.filtro.ativo {
+    color: white;
+
+    background-color: #f52c91;
+}
+
+
+/* VITRINE */
+
+.vitrine {
+    padding: 22px 40px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(260px, 1fr)
+        );
+
+    gap: 18px;
+}
+
+
+/* CARD */
+
+.card {
+    background-color: white;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    border:
+        1px solid #e5e7eb;
+
+    box-shadow:
+        0 2px 5px
+        rgba(0, 0, 0, 0.07);
+
+    transition: 0.2s;
+}
+
+
+.card:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 6px 14px
+        rgba(0, 0, 0, 0.10);
+}
+
+
+.link-imagem {
+    display: block;
+
+    text-decoration: none;
+}
+
+
+.imagem-produto {
+    width: 100%;
+    height: 280px;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+.sem-imagem {
+    width: 100%;
+    height: 280px;
+
+    background-color: #f3f4f6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #9ca3af;
+}
+
+
+/* CONTEÚDO */
+
+.card-conteudo {
+    padding: 16px;
+}
+
+
+.nome-link {
+    color: #111827;
+
+    text-decoration: none;
+}
+
+
+.nome-link:hover {
+    color: #f00079;
+}
+
+
+.card h2 {
+    margin:
+        0 0 10px 0;
+
+    font-size: 17px;
+
+    font-weight: 500;
+}
+
+
+.restricoes-card {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-bottom: 14px;
+}
+
+
+.restricoes-card span {
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    background-color: #fdf2f8;
+
+    color: #be185d;
+
+    font-size: 11px;
+}
+
+
+.rodape-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.preco {
+    color: #f00079;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+/* BOTÃO */
+
+.botao-adicionar {
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background-color: #f52c91;
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.2s;
+
+    text-decoration: none;
+}
+
+
+.botao-adicionar:hover {
+    background-color: #d91b76;
+
+    transform:
+        scale(1.06);
+}
+
+
+.nenhum-produto {
+    color: #6b7280;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .topo {
+        padding:
+            10px 16px;
+    }
+
+    .meus-pedidos-topo {
+        font-size: 12px;
+    }
+
+    .acoes-topo {
+        gap: 12px;
+    }
+
+    .filtros {
+        padding:
+            12px 16px;
+
+        overflow-x: auto;
+    }
+
+    .filtro {
+        white-space: nowrap;
+    }
+
+    .vitrine {
+        padding: 16px;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 10px;
+    }
+
+    .imagem-produto,
+    .sem-imagem {
+        height: 180px;
+    }
+
+    .card-conteudo {
+        padding: 12px;
+    }
+
+}

@@ -1,0 +1,351 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background-color: #f3f4f6;
+    color: #111827;
+
+    min-height: 100vh;
+}
+
+
+/* PAINEL PRINCIPAL */
+
+.painel-carrinho {
+    width: 100%;
+    max-width: 520px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.06);
+}
+
+
+/* CABEÇALHO */
+
+.cabecalho-carrinho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cabecalho-carrinho h1 {
+    margin: 0;
+
+    font-size: 21px;
+}
+
+.fechar {
+    text-decoration: none;
+
+    color: #6b7280;
+
+    font-size: 26px;
+    line-height: 1;
+}
+
+.fechar:hover {
+    color: #111827;
+}
+
+
+/* LISTA DE PRODUTOS */
+
+.lista-itens {
+    flex: 1;
+}
+
+.item-carrinho {
+    min-height: 124px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 16px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    position: relative;
+}
+
+
+/* IMAGEM DO PRODUTO */
+
+.imagem-item {
+    width: 82px;
+    height: 82px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 9px;
+}
+
+
+/* INFORMAÇÕES DO PRODUTO */
+
+.informacoes-item {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding-right: 30px;
+}
+
+.nome-produto {
+    font-size: 14px;
+}
+
+.preco {
+    color: #f00079;
+
+    font-size: 14px;
+}
+
+
+/* CONTROLE DE QUANTIDADE */
+
+.quantidade {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.botao-quantidade {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: #f3f4f6;
+
+    text-decoration: none;
+
+    color: #111827;
+
+    font-size: 21px;
+
+    transition: 0.2s;
+}
+
+.botao-quantidade:hover {
+    background-color: #e5e7eb;
+}
+
+
+/* REMOVER PRODUTO */
+
+.remover {
+    position: absolute;
+
+    right: 14px;
+    top: 18px;
+
+    text-decoration: none;
+
+    color: #9ca3af;
+
+    font-size: 21px;
+}
+
+.remover:hover {
+    color: #ef4444;
+}
+
+
+/* EMBALAGEM DE PRESENTE */
+
+.embalagem {
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+
+    padding: 18px 16px;
+}
+
+.linha-embalagem {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    text-decoration: none;
+
+    color: #111827;
+
+    font-size: 14px;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 4px;
+
+    font-size: 13px;
+}
+
+.checkbox.marcado {
+    background-color: #f52c91;
+
+    color: white;
+
+    border-color: #f52c91;
+}
+
+.adicional {
+    color: #f00079;
+}
+
+
+/* RESUMO */
+
+.resumo {
+    padding-top: 12px;
+}
+
+.linha-resumo,
+.linha-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 11px 16px;
+}
+
+.linha-resumo {
+    font-size: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.linha-total {
+    font-size: 21px;
+}
+
+.linha-total strong:last-child {
+    color: #f00079;
+
+    font-size: 25px;
+}
+
+
+/* BOTÃO PAGAMENTO */
+
+.botao-pagamento {
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 16px 16px;
+
+    background-color: #f52c91;
+
+    color: white;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    transition: 0.2s;
+}
+
+.botao-pagamento:hover {
+    background-color: #d91b76;
+}
+
+
+/* CARRINHO VAZIO */
+
+.carrinho-vazio {
+    padding: 50px 20px;
+
+    text-align: center;
+}
+
+.carrinho-vazio p {
+    color: #6b7280;
+}
+
+.carrinho-vazio a {
+    color: #f00079;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+    body {
+        background-color: white;
+    }
+
+    .painel-carrinho {
+        max-width: none;
+
+        box-shadow: none;
+    }
+
+    .cabecalho-carrinho {
+        padding: 18px 16px;
+    }
+
+    .item-carrinho {
+        padding: 16px 12px;
+    }
+
+    .imagem-item {
+        width: 80px;
+        height: 80px;
+    }
+
+}

@@ -1,0 +1,301 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Pedido #{{ pedido.id }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'loja/css/detalhe_pedido.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="pagina">
+
+        <header class="cabecalho">
+
+            <div>
+
+                <span class="subtitulo">
+                    Rastreamento
+                </span>
+
+                <h1>
+                    Pedido #{{ pedido.id }}
+                </h1>
+
+                <p>
+                    Realizado em
+                    {{ pedido.criado_em|date:"d/m/Y H:i" }}
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'loja:meus_pedidos' %}?email={{ pedido.cliente.email|urlencode }}"
+                class="voltar"
+            >
+                ← Meus Pedidos
+            </a>
+
+        </header>
+
+
+        <section class="acoes-pedido">
+
+            <a
+                href="{% url 'loja:recibo_pedido' pedido.id %}"
+                class="botao-recibo"
+            >
+                Baixar Recibo PDF
+            </a>
+
+            <a
+                href="{% url 'loja:home' %}"
+                class="botao-secundario"
+            >
+                Continuar Comprando
+            </a>
+
+        </section>
+
+
+        <section class="status-atual">
+
+            <span>
+                Status atual
+            </span>
+
+            <strong>
+                {{ pedido.get_status_display }}
+            </strong>
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>
+                Histórico do Pedido
+            </h2>
+
+
+            <div class="timeline">
+
+                {% for historico in pedido.historico_status.all %}
+
+                    <div class="evento">
+
+                        <div class="marcador">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                {{ historico.get_status_display }}
+                            </strong>
+
+                            <span>
+                                {{ historico.data|date:"d/m/Y H:i" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p>
+                        Nenhum histórico disponível.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>
+                Itens
+            </h2>
+
+
+            {% for item in pedido.itens.all %}
+
+                <div class="item">
+
+                    <div>
+
+                        <strong>
+                            {{ item.cupcake.nome }}
+                        </strong>
+
+                        <span>
+                            Quantidade:
+                            {{ item.quantidade }}
+                        </span>
+
+                    </div>
+
+                    <strong>
+                        R$ {{ item.subtotal }}
+                    </strong>
+
+                </div>
+
+            {% endfor %}
+
+
+            <div class="resumo">
+
+                <div>
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span>
+                        R$ {{ pedido.subtotal }}
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Frete
+                    </span>
+
+                    <span>
+                        R$ {{ pedido.frete }}
+                    </span>
+
+                </div>
+
+
+                {% if pedido.embalagem_presente %}
+
+                    <div>
+
+                        <span>
+                            Embalagem
+                        </span>
+
+                        <span>
+                            R$ 5,00
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="total">
+
+                    <strong>
+                        Total
+                    </strong>
+
+                    <strong>
+                        R$ {{ pedido.total }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>
+                Pagamento
+            </h2>
+
+            <p>
+                {{ pedido.get_forma_pagamento_display }}
+            </p>
+
+        </section>
+
+
+        <section class="card">
+
+            <h2>
+                Entrega
+            </h2>
+
+            <p>
+                {{ pedido.cliente.nome }}
+            </p>
+
+            <p>
+                {{ pedido.endereco.rua }},
+                {{ pedido.endereco.numero }}
+            </p>
+
+            {% if pedido.endereco.complemento %}
+
+                <p>
+                    {{ pedido.endereco.complemento }}
+                </p>
+
+            {% endif %}
+
+            <p>
+                {{ pedido.endereco.bairro }}
+                -
+                {{ pedido.endereco.cidade }}/{{ pedido.endereco.estado }}
+            </p>
+
+            <p>
+                CEP:
+                {{ pedido.endereco.cep }}
+            </p>
+
+        </section>
+
+
+        {% if pedido.mensagem_personalizada %}
+
+            <section class="card">
+
+                <h2>
+                    Mensagem personalizada
+                </h2>
+
+                <p>
+                    {{ pedido.mensagem_personalizada }}
+                </p>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>

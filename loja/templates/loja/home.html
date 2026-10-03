@@ -1,0 +1,197 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Cupcakeria
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'loja/css/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <header class="topo">
+
+        <a
+            href="{% url 'loja:home' %}"
+            class="marca"
+        >
+
+            <div class="logo">
+                C
+            </div>
+
+            <span>
+                Cupcakeria
+            </span>
+
+        </a>
+
+
+        <div class="acoes-topo">
+
+            <a
+                href="{% url 'loja:meus_pedidos' %}"
+                class="meus-pedidos-topo"
+            >
+                Meus Pedidos
+            </a>
+
+            <a
+                href="{% url 'loja:carrinho' %}"
+                class="carrinho-topo"
+                title="Carrinho"
+            >
+                🛒
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <nav class="filtros">
+
+        <a
+            href="{% url 'loja:home' %}"
+            class="
+                filtro
+
+                {% if not restricao_ativa %}
+                    ativo
+                {% endif %}
+            "
+        >
+            Todos
+        </a>
+
+
+        {% for restricao in restricoes %}
+
+            <a
+                href="?restricao={{ restricao.nome }}"
+                class="
+                    filtro
+
+                    {% if restricao_ativa == restricao.nome %}
+                        ativo
+                    {% endif %}
+                "
+            >
+                {{ restricao.nome }}
+            </a>
+
+        {% endfor %}
+
+    </nav>
+
+
+    <main class="vitrine">
+
+        {% for cupcake in cupcakes %}
+
+            <article class="card">
+
+
+                <a
+                    href="{% url 'loja:detalhe_cupcake' cupcake.id %}"
+                    class="link-imagem"
+                >
+
+                    {% if cupcake.imagem %}
+
+                        <img
+                            src="{{ cupcake.imagem.url }}"
+                            alt="{{ cupcake.nome }}"
+                            class="imagem-produto"
+                        >
+
+                    {% else %}
+
+                        <div class="sem-imagem">
+                            Sem imagem
+                        </div>
+
+                    {% endif %}
+
+                </a>
+
+
+                <div class="card-conteudo">
+
+
+                    <a
+                        href="{% url 'loja:detalhe_cupcake' cupcake.id %}"
+                        class="nome-link"
+                    >
+                        <h2>
+                            {{ cupcake.nome }}
+                        </h2>
+                    </a>
+
+
+                    {% if cupcake.restricoes.all %}
+
+                        <div class="restricoes-card">
+
+                            {% for restricao in cupcake.restricoes.all %}
+
+                                <span>
+                                    {{ restricao.nome }}
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="rodape-card">
+
+                        <span class="preco">
+                            R$ {{ cupcake.preco }}
+                        </span>
+
+                        <a
+                            href="{% url 'loja:adicionar_carrinho' cupcake.id %}"
+                            class="botao-adicionar"
+                            title="Adicionar ao carrinho"
+                        >
+                            +
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <p class="nenhum-produto">
+                Nenhum cupcake encontrado.
+            </p>
+
+        {% endfor %}
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,323 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background-color: #f5f6f8;
+
+    color: #111827;
+}
+
+
+.pagina-pedido {
+    width: 100%;
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    padding: 28px 16px;
+}
+
+
+/* APROVADO */
+
+.card-aprovado,
+.card-status,
+.card-detalhes {
+    background-color: white;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 2px 7px
+        rgba(0, 0, 0, 0.06);
+}
+
+
+.card-aprovado {
+    padding: 24px;
+
+    text-align: center;
+}
+
+
+.icone-aprovado {
+    width: 64px;
+    height: 64px;
+
+    margin:
+        0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: #d1fae5;
+
+    color: #059669;
+
+    font-size: 34px;
+}
+
+
+.card-aprovado h1 {
+    margin: 0;
+
+    font-size: 25px;
+}
+
+
+.card-aprovado p {
+    margin-bottom: 0;
+
+    color: #6b7280;
+}
+
+
+/* STATUS */
+
+.card-status {
+    margin-top: 22px;
+
+    padding: 26px;
+}
+
+
+.etapa {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+}
+
+
+.icone-etapa {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 21px;
+}
+
+
+.etapa.concluida .icone-etapa {
+    background-color: #10b981;
+
+    color: white;
+}
+
+
+.etapa.atual .icone-etapa {
+    background-color: #f52c91;
+
+    color: white;
+}
+
+
+.etapa.pendente .icone-etapa {
+    background-color: #e5e7eb;
+
+    color: #9ca3af;
+}
+
+
+.conteudo-etapa {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.conteudo-etapa strong {
+    font-size: 17px;
+}
+
+
+.conteudo-etapa span {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.etapa.atual
+.conteudo-etapa span {
+    color: #f00079;
+}
+
+
+.etapa.pendente
+.conteudo-etapa {
+    color: #9ca3af;
+}
+
+
+.linha-status {
+    width: 2px;
+    height: 38px;
+
+    margin-left: 24px;
+
+    background-color: #e5e7eb;
+}
+
+
+/* DETALHES */
+
+.card-detalhes {
+    margin-top: 22px;
+
+    padding: 26px;
+}
+
+
+.card-detalhes h2 {
+    margin-top: 0;
+
+    margin-bottom: 22px;
+}
+
+
+.linha-detalhe {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 10px 0;
+
+    font-size: 14px;
+}
+
+
+.linha-detalhe span {
+    color: #4b5563;
+}
+
+
+.linha-detalhe.total {
+    margin-top: 6px;
+
+    padding-top: 16px;
+
+    border-top:
+        1px solid #e5e7eb;
+}
+
+
+.linha-detalhe.total strong {
+    color: #f00079;
+
+    font-size: 18px;
+}
+
+
+/* AÇÕES */
+
+.acoes {
+    margin-top: 22px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.botao-principal,
+.botao-recibo,
+.botao-secundario {
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+
+.botao-principal {
+    background-color: #f52c91;
+
+    color: white;
+}
+
+
+.botao-principal:hover {
+    background-color: #d91b76;
+}
+
+
+.botao-recibo {
+    background-color: #111827;
+
+    color: white;
+}
+
+
+.botao-recibo:hover {
+    background-color: #1f2937;
+}
+
+
+.botao-secundario {
+    background-color: white;
+
+    color: #111827;
+
+    border:
+        1px solid #d1d5db;
+}
+
+
+.botao-secundario:hover {
+    background-color: #f9fafb;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .pagina-pedido {
+        padding:
+            16px 10px;
+    }
+
+    .card-aprovado h1 {
+        font-size: 21px;
+    }
+
+    .card-status,
+    .card-detalhes {
+        padding: 20px;
+    }
+
+}

@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Meus Pedidos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'loja/css/meus_pedidos.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="pagina">
+
+        <header class="cabecalho">
+
+            <div>
+
+                <h1>
+                    Meus Pedidos
+                </h1>
+
+                <p>
+                    Consulte seus pedidos
+                    usando o e-mail informado
+                    na compra.
+                </p>
+
+            </div>
+
+            <a
+                href="{% url 'loja:home' %}"
+                class="voltar"
+            >
+                ← Início
+            </a>
+
+        </header>
+
+
+        <form
+            method="get"
+            class="busca"
+        >
+
+            <label for="email">
+                E-mail
+            </label>
+
+            <div class="busca-controles">
+
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value="{{ email }}"
+                    placeholder="seu@email.com"
+                    required
+                >
+
+                <button type="submit">
+                    Buscar
+                </button>
+
+            </div>
+
+        </form>
+
+
+        {% if email %}
+
+            <section class="lista">
+
+                {% for pedido in pedidos %}
+
+                    <a
+                        href="{% url 'loja:detalhe_pedido' pedido.id %}"
+                        class="pedido"
+                    >
+
+                        <div>
+
+                            <strong>
+                                Pedido #{{ pedido.id }}
+                            </strong>
+
+                            <span>
+                                {{ pedido.criado_em|date:"d/m/Y H:i" }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="pedido-direita">
+
+                            <span
+                                class="
+                                    status
+                                    status-{{ pedido.status }}
+                                "
+                            >
+                                {{ pedido.get_status_display }}
+                            </span>
+
+                            <strong class="valor">
+                                R$ {{ pedido.total }}
+                            </strong>
+
+                        </div>
+
+                    </a>
+
+                {% empty %}
+
+                    <div class="vazio">
+
+                        <h2>
+                            Nenhum pedido encontrado
+                        </h2>
+
+                        <p>
+                            Não encontramos pedidos
+                            vinculados a
+                            <strong>
+                                {{ email }}
+                            </strong>.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>

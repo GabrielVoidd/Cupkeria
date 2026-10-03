@@ -1,0 +1,153 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ cupcake.nome }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'loja/css/detalhe_cupcake.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="pagina-produto">
+
+        <header class="topo-produto">
+
+            <a
+                href="{% url 'loja:home' %}"
+                class="voltar"
+            >
+                ← Voltar
+            </a>
+
+            <a
+                href="{% url 'loja:carrinho' %}"
+                class="carrinho"
+            >
+                🛒 Carrinho
+            </a>
+
+        </header>
+
+
+        <section class="produto">
+
+            <div class="area-imagem">
+
+                {% if cupcake.imagem %}
+
+                    <img
+                        src="{{ cupcake.imagem.url }}"
+                        alt="{{ cupcake.nome }}"
+                    >
+
+                {% else %}
+
+                    <div class="sem-imagem">
+                        Sem imagem
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="informacoes">
+
+                <span class="categoria">
+                    CUPCAKE
+                </span>
+
+                <h1>
+                    {{ cupcake.nome }}
+                </h1>
+
+
+                {% if cupcake.restricoes.exists %}
+
+                    <div class="restricoes">
+
+                        {% for restricao in cupcake.restricoes.all %}
+
+                            <span>
+                                {{ restricao.nome }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <strong class="preco">
+                    R$ {{ cupcake.preco }}
+                </strong>
+
+
+                {% if cupcake.descricao %}
+
+                    <div class="bloco">
+
+                        <h2>
+                            Descrição
+                        </h2>
+
+                        <p>
+                            {{ cupcake.descricao }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if cupcake.ingredientes %}
+
+                    <div class="bloco">
+
+                        <h2>
+                            Ingredientes
+                        </h2>
+
+                        <p>
+                            {{ cupcake.ingredientes }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'loja:adicionar_carrinho' cupcake.id %}"
+                    class="botao-adicionar"
+                >
+                    Adicionar ao Carrinho
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

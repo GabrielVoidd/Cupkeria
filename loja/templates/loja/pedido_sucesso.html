@@ -1,0 +1,260 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Pedido #{{ pedido.id }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'loja/css/pedido_sucesso.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <main class="pagina-pedido">
+
+        <section class="card-aprovado">
+
+            <div class="icone-aprovado">
+                ✓
+            </div>
+
+            <h1>
+                Pedido #{{ pedido.id }} - Aprovado
+            </h1>
+
+            <p>
+                Seu pedido foi registrado com sucesso.
+            </p>
+
+        </section>
+
+
+        <section class="card-status">
+
+            <div class="etapa concluida">
+
+                <div class="icone-etapa">
+                    📦
+                </div>
+
+                <div class="conteudo-etapa">
+
+                    <strong>
+                        Preparando
+                    </strong>
+
+                    <span>
+                        Pedido recebido
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="linha-status"></div>
+
+
+            <div
+                class="
+                    etapa
+
+                    {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
+                        concluida
+                    {% else %}
+                        atual
+                    {% endif %}
+                "
+            >
+
+                <div class="icone-etapa">
+                    🚚
+                </div>
+
+                <div class="conteudo-etapa">
+
+                    <strong>
+                        Saiu para Entrega
+                    </strong>
+
+                    {% if pedido.status == "preparando" %}
+
+                        <span>
+                            Aguardando
+                        </span>
+
+                    {% elif pedido.status == "saiu_entrega" %}
+
+                        <span>
+                            Em andamento
+                        </span>
+
+                    {% else %}
+
+                        <span>
+                            Concluído
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="linha-status"></div>
+
+
+            <div
+                class="
+                    etapa
+
+                    {% if pedido.status == 'entregue' %}
+                        concluida
+                    {% else %}
+                        pendente
+                    {% endif %}
+                "
+            >
+
+                <div class="icone-etapa">
+                    ✓
+                </div>
+
+                <div class="conteudo-etapa">
+
+                    <strong>
+                        Entregue
+                    </strong>
+
+                    {% if pedido.status == "entregue" %}
+
+                        <span>
+                            Concluído
+                        </span>
+
+                    {% else %}
+
+                        <span>
+                            Aguardando
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="card-detalhes">
+
+            <h2>
+                Resumo do Pedido
+            </h2>
+
+
+            <div class="linha-detalhe">
+
+                <span>
+                    Forma de pagamento
+                </span>
+
+                <strong>
+                    {{ pedido.get_forma_pagamento_display }}
+                </strong>
+
+            </div>
+
+
+            <div class="linha-detalhe">
+
+                <span>
+                    Frete
+                </span>
+
+                <strong>
+                    R$ {{ pedido.frete }}
+                </strong>
+
+            </div>
+
+
+            {% if pedido.embalagem_presente %}
+
+                <div class="linha-detalhe">
+
+                    <span>
+                        Embalagem para presente
+                    </span>
+
+                    <strong>
+                        Sim
+                    </strong>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="linha-detalhe total">
+
+                <span>
+                    Total pago
+                </span>
+
+                <strong>
+                    R$ {{ pedido.total }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="acoes">
+
+            <a
+                href="{% url 'loja:detalhe_pedido' pedido.id %}"
+                class="botao-principal"
+            >
+                Acompanhar Pedido
+            </a>
+
+            <a
+                href="{% url 'loja:recibo_pedido' pedido.id %}"
+                class="botao-recibo"
+            >
+                Baixar Recibo PDF
+            </a>
+
+            <a
+                href="{% url 'loja:home' %}"
+                class="botao-secundario"
+            >
+                Voltar para o Início
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
