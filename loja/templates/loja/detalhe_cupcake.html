@@ -4,7 +4,6 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -20,7 +19,6 @@
         rel="stylesheet"
         href="{% static 'loja/css/detalhe_cupcake.css' %}"
     >
-
 </head>
 
 <body>
@@ -52,8 +50,10 @@
 
                 {% if cupcake.imagem_estatica %}
 
+                    {% static cupcake.imagem_estatica as imagem_url %}
+
                     <img
-                        src="{% static cupcake.imagem_estatica %}"
+                        src="{{ imagem_url }}"
                         alt="{{ cupcake.nome }}"
                     >
 
@@ -86,21 +86,17 @@
                 </h1>
 
 
-                {% if cupcake.restricoes.exists %}
+                <div class="restricoes">
 
-                    <div class="restricoes">
+                    {% for restricao in cupcake.restricoes.all %}
 
-                        {% for restricao in cupcake.restricoes.all %}
+                        <span>
+                            {{ restricao.nome }}
+                        </span>
 
-                            <span>
-                                {{ restricao.nome }}
-                            </span>
+                    {% endfor %}
 
-                        {% endfor %}
-
-                    </div>
-
-                {% endif %}
+                </div>
 
 
                 <strong class="preco">
