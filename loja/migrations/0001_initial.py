@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('quantidade', models.PositiveIntegerField(default=1)),
                 ('preco_unitario', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('cupcake', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='loja.cupcake')),
+                ('cupcakes', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='loja.cupcakes')),
                 ('pedido', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='itens', to='loja.pedido')),
             ],
         ),
@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='cupcake',
+            model_name='cupcakes',
             name='restricoes',
             field=models.ManyToManyField(blank=True, related_name='cupcakes', to='loja.restricao'),
         ),

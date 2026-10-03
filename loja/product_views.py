@@ -13,7 +13,7 @@ def detalhe_cupcake(request, cupcake_id):
     )
 
     contexto = {
-        "cupcake": cupcake,
+        "cupcakes": cupcake,
     }
 
     return render(

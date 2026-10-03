@@ -112,7 +112,7 @@ def carrinho(request):
         subtotal += total_item
 
         itens.append({
-            "cupcake": cupcake,
+            "cupcakes": cupcake,
             "quantidade": quantidade,
             "total_item": total_item,
         })

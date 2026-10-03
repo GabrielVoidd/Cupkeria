@@ -4,7 +4,6 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -12,15 +11,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Cupcakeria
-    </title>
+    <title>Cupcakeria</title>
 
     <link
         rel="stylesheet"
         href="{% static 'loja/css/style.css' %}"
     >
-
 </head>
 
 <body>
@@ -31,7 +27,6 @@
             href="{% url 'loja:home' %}"
             class="marca"
         >
-
             <div class="logo">
                 C
             </div>
@@ -39,7 +34,6 @@
             <span>
                 Cupcakeria
             </span>
-
         </a>
 
 
@@ -71,7 +65,6 @@
             href="{% url 'loja:home' %}"
             class="
                 filtro
-
                 {% if not restricao_ativa %}
                     ativo
                 {% endif %}
@@ -87,7 +80,6 @@
                 href="?restricao={{ restricao.nome }}"
                 class="
                     filtro
-
                     {% if restricao_ativa == restricao.nome %}
                         ativo
                     {% endif %}
@@ -107,13 +99,22 @@
 
             <article class="card">
 
-
                 <a
                     href="{% url 'loja:detalhe_cupcake' cupcake.id %}"
                     class="link-imagem"
                 >
 
-                    {% if cupcake.imagem %}
+                    {% if cupcake.imagem_estatica %}
+
+                        {% static cupcake.imagem_estatica as imagem_url %}
+
+                        <img
+                            src="{{ imagem_url }}"
+                            alt="{{ cupcake.nome }}"
+                            class="imagem-produto"
+                        >
+
+                    {% elif cupcake.imagem %}
 
                         <img
                             src="{{ cupcake.imagem.url }}"
@@ -134,32 +135,29 @@
 
                 <div class="card-conteudo">
 
-
                     <a
                         href="{% url 'loja:detalhe_cupcake' cupcake.id %}"
                         class="nome-link"
                     >
+
                         <h2>
                             {{ cupcake.nome }}
                         </h2>
+
                     </a>
 
 
-                    {% if cupcake.restricoes.all %}
+                    <div class="restricoes-card">
 
-                        <div class="restricoes-card">
+                        {% for restricao in cupcake.restricoes.all %}
 
-                            {% for restricao in cupcake.restricoes.all %}
+                            <span>
+                                {{ restricao.nome }}
+                            </span>
 
-                                <span>
-                                    {{ restricao.nome }}
-                                </span>
+                        {% endfor %}
 
-                            {% endfor %}
-
-                        </div>
-
-                    {% endif %}
+                    </div>
 
 
                     <div class="rodape-card">

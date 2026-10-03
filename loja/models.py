@@ -10,8 +10,15 @@ class Restricao(models.Model):
 
 class Cupcake(models.Model):
     nome = models.CharField(max_length=100)
-    descricao = models.TextField(blank=True)
-    ingredientes = models.TextField(blank=True)
+
+    descricao = models.TextField(
+        blank=True
+    )
+
+    ingredientes = models.TextField(
+        blank=True
+    )
+
     preco = models.DecimalField(
         max_digits=8,
         decimal_places=2
@@ -23,20 +30,29 @@ class Cupcake(models.Model):
         null=True
     )
 
+    imagem_estatica = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
     restricoes = models.ManyToManyField(
         Restricao,
         blank=True,
         related_name="cupcakes"
     )
 
-    ativo = models.BooleanField(default=True)
+    ativo = models.BooleanField(
+        default=True
+    )
 
     def __str__(self):
         return self.nome
 
 
 class Cliente(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(
+        max_length=100
+    )
 
     email = models.EmailField(
         unique=True
@@ -58,18 +74,34 @@ class Endereco(models.Model):
         related_name="enderecos"
     )
 
-    cep = models.CharField(max_length=9)
-    rua = models.CharField(max_length=150)
-    numero = models.CharField(max_length=20)
+    cep = models.CharField(
+        max_length=9
+    )
+
+    rua = models.CharField(
+        max_length=150
+    )
+
+    numero = models.CharField(
+        max_length=20
+    )
 
     complemento = models.CharField(
         max_length=100,
         blank=True
     )
 
-    bairro = models.CharField(max_length=100)
-    cidade = models.CharField(max_length=100)
-    estado = models.CharField(max_length=2)
+    bairro = models.CharField(
+        max_length=100
+    )
+
+    cidade = models.CharField(
+        max_length=100
+    )
+
+    estado = models.CharField(
+        max_length=2
+    )
 
     def __str__(self):
         return (

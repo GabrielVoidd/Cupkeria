@@ -35,6 +35,9 @@ class Command(BaseCommand):
                     "e essência de baunilha."
                 ),
                 "preco": "8.50",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/baunilha.jpeg"
+                ),
                 "restricoes": [],
             },
 
@@ -49,6 +52,9 @@ class Command(BaseCommand):
                     "cacau e chocolate."
                 ),
                 "preco": "9.00",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/chocolate.jpeg"
+                ),
                 "restricoes": [],
             },
 
@@ -63,6 +69,9 @@ class Command(BaseCommand):
                     "cacau e corante alimentício."
                 ),
                 "preco": "10.00",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/red_velvet.jpeg"
+                ),
                 "restricoes": [],
             },
 
@@ -77,6 +86,9 @@ class Command(BaseCommand):
                     "e limão."
                 ),
                 "preco": "8.00",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/limao.jpeg"
+                ),
                 "restricoes": [],
             },
 
@@ -91,6 +103,9 @@ class Command(BaseCommand):
                     "bebida vegetal e cacau."
                 ),
                 "preco": "9.50",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/vegano.jpeg"
+                ),
                 "restricoes": [
                     vegano,
                 ],
@@ -107,6 +122,9 @@ class Command(BaseCommand):
                     "açúcar e cacau."
                 ),
                 "preco": "10.50",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/sem_gluten.jpeg"
+                ),
                 "restricoes": [
                     sem_gluten,
                 ],
@@ -122,6 +140,9 @@ class Command(BaseCommand):
                     "e adoçante culinário."
                 ),
                 "preco": "10.50",
+                "imagem_estatica": (
+                    "loja/img/cupcakes/zero_acucar.jpeg"
+                ),
                 "restricoes": [
                     zero_acucar,
                 ],
@@ -145,6 +166,9 @@ class Command(BaseCommand):
 
                         "preco":
                             dados["preco"],
+
+                        "imagem_estatica":
+                            dados["imagem_estatica"],
 
                         "ativo": True,
                     }

@@ -50,7 +50,14 @@
 
             <div class="area-imagem">
 
-                {% if cupcake.imagem %}
+                {% if cupcake.imagem_estatica %}
+
+                    <img
+                        src="{% static cupcake.imagem_estatica %}"
+                        alt="{{ cupcake.nome }}"
+                    >
+
+                {% elif cupcake.imagem %}
 
                     <img
                         src="{{ cupcake.imagem.url }}"

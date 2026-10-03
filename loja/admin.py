@@ -30,6 +30,7 @@ class CupcakeAdmin(admin.ModelAdmin):
         "nome",
         "preco",
         "ativo",
+        "imagem_estatica",
     )
 
     list_filter = (
@@ -82,6 +83,7 @@ class EnderecoAdmin(admin.ModelAdmin):
 class ItemPedidoInline(admin.TabularInline):
     model = ItemPedido
     extra = 0
+
     readonly_fields = (
         "cupcake",
         "quantidade",
@@ -91,9 +93,7 @@ class ItemPedidoInline(admin.TabularInline):
     can_delete = False
 
 
-class HistoricoStatusInline(
-    admin.TabularInline
-):
+class HistoricoStatusInline(admin.TabularInline):
     model = HistoricoStatus
     extra = 0
 
@@ -150,15 +150,11 @@ class PedidoAdmin(admin.ModelAdmin):
         status_anterior = None
 
         if change:
-            pedido_anterior = (
-                Pedido.objects.get(
-                    pk=obj.pk
-                )
+            pedido_anterior = Pedido.objects.get(
+                pk=obj.pk
             )
 
-            status_anterior = (
-                pedido_anterior.status
-            )
+            status_anterior = pedido_anterior.status
 
         super().save_model(
             request,
@@ -193,9 +189,7 @@ class ItemPedidoAdmin(admin.ModelAdmin):
 
 
 @admin.register(HistoricoStatus)
-class HistoricoStatusAdmin(
-    admin.ModelAdmin
-):
+class HistoricoStatusAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "pedido",

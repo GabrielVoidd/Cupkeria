@@ -16,7 +16,7 @@ urlpatterns = [
     ),
 
     path(
-        "cupcake/<int:cupcake_id>/",
+        "cupcakes/<int:cupcake_id>/",
         product_views.detalhe_cupcake,
         name="detalhe_cupcake"
     ),
