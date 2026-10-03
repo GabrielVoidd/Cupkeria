@@ -45,13 +45,29 @@
 
                 <article class="item-carrinho">
 
-                    {% if item.cupcake.imagem %}
+                    {% if item.cupcake.imagem_estatica %}
+
+                        {% static item.cupcake.imagem_estatica as imagem_url %}
+
+                        <img
+                            src="{{ imagem_url }}"
+                            alt="{{ item.cupcake.nome }}"
+                            class="imagem-item"
+                        >
+
+                    {% elif item.cupcake.imagem %}
 
                         <img
                             src="{{ item.cupcake.imagem.url }}"
                             alt="{{ item.cupcake.nome }}"
                             class="imagem-item"
                         >
+
+                    {% else %}
+
+                        <div class="imagem-item sem-imagem">
+                            Sem imagem
+                        </div>
 
                     {% endif %}
 
@@ -72,6 +88,7 @@
                             <a
                                 href="{% url 'loja:diminuir_quantidade' item.cupcake.id %}"
                                 class="botao-quantidade"
+                                title="Diminuir quantidade"
                             >
                                 −
                             </a>
@@ -83,6 +100,7 @@
                             <a
                                 href="{% url 'loja:aumentar_quantidade' item.cupcake.id %}"
                                 class="botao-quantidade"
+                                title="Aumentar quantidade"
                             >
                                 +
                             </a>
@@ -95,6 +113,7 @@
                     <a
                         href="{% url 'loja:remover_carrinho' item.cupcake.id %}"
                         class="remover"
+                        title="Remover produto"
                     >
                         ×
                     </a>

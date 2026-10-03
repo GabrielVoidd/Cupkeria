@@ -28,8 +28,7 @@ def home(request):
 
     if restricao:
         cupcakes = cupcakes.filter(
-            restricoes__nome__iexact=
-                restricao
+            restricoes__nome__iexact=restricao
         )
 
     restricoes = Restricao.objects.all()
@@ -98,11 +97,9 @@ def carrinho(request):
     )
 
     for cupcake in cupcakes:
-        quantidade = (
-            carrinho_session[
-                str(cupcake.id)
-            ]
-        )
+        quantidade = carrinho_session[
+            str(cupcake.id)
+        ]
 
         total_item = (
             cupcake.preco
@@ -112,7 +109,7 @@ def carrinho(request):
         subtotal += total_item
 
         itens.append({
-            "cupcakes": cupcake,
+            "cupcake": cupcake,
             "quantidade": quantidade,
             "total_item": total_item,
         })
@@ -225,7 +222,9 @@ def remover_carrinho(
     )
 
     if cupcake_id in carrinho:
-        del carrinho[cupcake_id]
+        del carrinho[
+            cupcake_id
+        ]
 
     request.session["carrinho"] = (
         carrinho
@@ -270,11 +269,9 @@ def calcular_totais(request):
     )
 
     for cupcake in cupcakes:
-        quantidade = (
-            carrinho_session[
-                str(cupcake.id)
-            ]
-        )
+        quantidade = carrinho_session[
+            str(cupcake.id)
+        ]
 
         subtotal += (
             cupcake.preco
@@ -368,12 +365,10 @@ def checkout(request):
             ""
         ).strip()
 
-        complemento = (
-            request.POST.get(
-                "complemento",
-                ""
-            ).strip()
-        )
+        complemento = request.POST.get(
+            "complemento",
+            ""
+        ).strip()
 
         bairro = request.POST.get(
             "bairro",
@@ -397,12 +392,10 @@ def checkout(request):
             )
         )
 
-        mensagem = (
-            request.POST.get(
-                "mensagem_personalizada",
-                ""
-            ).strip()
-        )
+        mensagem = request.POST.get(
+            "mensagem_personalizada",
+            ""
+        ).strip()
 
         campos_obrigatorios = [
             nome,
@@ -435,10 +428,8 @@ def checkout(request):
                 "cep": cep,
                 "rua": rua,
                 "numero": numero,
-
                 "complemento":
                     complemento,
-
                 "bairro": bairro,
                 "cidade": cidade,
                 "estado": estado,
@@ -640,11 +631,9 @@ def finalizar_pedido(request):
     )
 
     for cupcake in cupcakes:
-        quantidade = (
-            carrinho_session[
-                str(cupcake.id)
-            ]
-        )
+        quantidade = carrinho_session[
+            str(cupcake.id)
+        ]
 
         ItemPedido.objects.create(
             pedido=pedido,
@@ -704,7 +693,6 @@ def pedido_sucesso(
             "historico_status",
             "itens__cupcake"
         ),
-
         id=pedido_id
     )
 
@@ -774,7 +762,6 @@ def detalhe_pedido(
             "itens__cupcake",
             "historico_status"
         ),
-
         id=pedido_id
     )
 
