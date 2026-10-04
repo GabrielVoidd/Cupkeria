@@ -26,6 +26,11 @@
         <header class="checkout-header">
 
             <div>
+
+                <span class="subtitulo-checkout">
+                    CHECKOUT
+                </span>
+
                 <h1>
                     Finalizar Pedido
                 </h1>
@@ -33,6 +38,7 @@
                 <p>
                     Informe seus dados de entrega e pagamento.
                 </p>
+
             </div>
 
             <a
@@ -56,7 +62,6 @@
 
         <section class="checkout-grid">
 
-
             <div class="checkout-principal">
 
                 <section class="bloco">
@@ -69,6 +74,7 @@
                     <form
                         method="post"
                         id="form-checkout"
+                        novalidate
                     >
 
                         {% csrf_token %}
@@ -84,8 +90,13 @@
                                 type="text"
                                 id="nome"
                                 name="nome"
+                                value="{{ dados.nome }}"
+                                minlength="3"
+                                autocomplete="name"
                                 required
                             >
+
+                            <span class="erro-campo"></span>
 
                         </div>
 
@@ -102,8 +113,12 @@
                                     type="email"
                                     id="email"
                                     name="email"
+                                    value="{{ dados.email }}"
+                                    autocomplete="email"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -118,33 +133,72 @@
                                     type="text"
                                     id="telefone"
                                     name="telefone"
+                                    value="{{ dados.telefone }}"
+                                    placeholder="(11) 99999-9999"
+                                    maxlength="15"
+                                    inputmode="numeric"
+                                    autocomplete="tel"
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
                         </div>
 
 
-                        <h2 class="titulo-secao">
-                            Endereço de Entrega
-                        </h2>
+                        <div class="titulo-endereco">
+
+                            <div>
+
+                                <h2>
+                                    Endereço de Entrega
+                                </h2>
+
+                                <p>
+                                    Informe o CEP para preencher o endereço automaticamente.
+                                </p>
+
+                            </div>
+
+                        </div>
 
 
-                        <div class="linha-cep">
+                        <div class="area-cep">
 
-                            <div class="campo">
+                            <div class="campo campo-cep">
 
                                 <label for="cep">
                                     CEP *
                                 </label>
 
-                                <input
-                                    type="text"
-                                    id="cep"
-                                    name="cep"
-                                    placeholder="00000-000"
-                                    required
-                                >
+                                <div class="controle-cep">
+
+                                    <input
+                                        type="text"
+                                        id="cep"
+                                        name="cep"
+                                        value="{{ dados.cep }}"
+                                        placeholder="00000-000"
+                                        maxlength="9"
+                                        inputmode="numeric"
+                                        autocomplete="postal-code"
+                                        required
+                                    >
+
+                                    <span
+                                        id="indicador-cep"
+                                        class="indicador-cep"
+                                    ></span>
+
+                                </div>
+
+                                <span
+                                    id="mensagem-cep"
+                                    class="mensagem-cep"
+                                ></span>
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -163,8 +217,11 @@
                                     type="text"
                                     id="rua"
                                     name="rua"
+                                    value="{{ dados.rua }}"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -179,8 +236,11 @@
                                     type="text"
                                     id="numero"
                                     name="numero"
+                                    value="{{ dados.numero }}"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -197,6 +257,7 @@
                                 type="text"
                                 id="complemento"
                                 name="complemento"
+                                value="{{ dados.complemento }}"
                             >
 
                         </div>
@@ -214,8 +275,11 @@
                                     type="text"
                                     id="bairro"
                                     name="bairro"
+                                    value="{{ dados.bairro }}"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -230,8 +294,11 @@
                                     type="text"
                                     id="cidade"
                                     name="cidade"
+                                    value="{{ dados.cidade }}"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -246,9 +313,12 @@
                                     type="text"
                                     id="estado"
                                     name="estado"
+                                    value="{{ dados.estado }}"
                                     maxlength="2"
                                     required
                                 >
+
+                                <span class="erro-campo"></span>
 
                             </div>
 
@@ -266,10 +336,16 @@
                                 type="radio"
                                 name="forma_pagamento"
                                 value="pix"
+
+                                {% if dados.forma_pagamento == "pix" %}
+                                    checked
+                                {% endif %}
+
                                 required
                             >
 
                             <div>
+
                                 <strong>
                                     PIX
                                 </strong>
@@ -277,6 +353,7 @@
                                 <span>
                                     Aprovação imediata
                                 </span>
+
                             </div>
 
                         </label>
@@ -288,10 +365,16 @@
                                 type="radio"
                                 name="forma_pagamento"
                                 value="cartao"
+
+                                {% if dados.forma_pagamento == "cartao" %}
+                                    checked
+                                {% endif %}
+
                                 required
                             >
 
                             <div>
+
                                 <strong>
                                     Cartão de Crédito
                                 </strong>
@@ -299,9 +382,16 @@
                                 <span>
                                     Em até 3x sem juros
                                 </span>
+
                             </div>
 
                         </label>
+
+
+                        <span
+                            id="erro-pagamento"
+                            class="erro-campo"
+                        ></span>
 
 
                         <div class="campo mensagem">
@@ -315,7 +405,7 @@
                                 name="mensagem_personalizada"
                                 rows="4"
                                 placeholder="Mensagem opcional para o pedido"
-                            ></textarea>
+                            >{{ dados.mensagem_personalizada }}</textarea>
 
                         </div>
 
@@ -369,20 +459,14 @@
                         Frete
                     </span>
 
-                    <span>
+                    <span id="valor-frete">
                         R$ {{ frete }}
                     </span>
 
                 </div>
 
 
-                <form
-                    method="post"
-                    action="{% url 'loja:calcular_frete' %}"
-                    class="form-frete"
-                >
-
-                    {% csrf_token %}
+                <div class="form-frete">
 
                     <label for="cep-frete">
                         Calcular Frete
@@ -393,18 +477,26 @@
                         <input
                             type="text"
                             id="cep-frete"
-                            name="cep"
                             placeholder="00000-000"
-                            required
+                            maxlength="9"
+                            inputmode="numeric"
                         >
 
-                        <button type="submit">
+                        <button
+                            type="button"
+                            id="botao-calcular-frete"
+                        >
                             Calcular
                         </button>
 
                     </div>
 
-                </form>
+                    <span
+                        id="mensagem-frete"
+                        class="mensagem-cep"
+                    ></span>
+
+                </div>
 
 
                 <div class="total">
@@ -413,7 +505,7 @@
                         Total
                     </span>
 
-                    <strong>
+                    <strong id="valor-total">
                         R$ {{ total }}
                     </strong>
 
@@ -433,6 +525,718 @@
         </section>
 
     </main>
+
+
+    <script>
+
+        const formCheckout =
+            document.getElementById(
+                "form-checkout"
+            );
+
+        const campoNome =
+            document.getElementById("nome");
+
+        const campoEmail =
+            document.getElementById("email");
+
+        const campoTelefone =
+            document.getElementById("telefone");
+
+        const campoCep =
+            document.getElementById("cep");
+
+        const campoRua =
+            document.getElementById("rua");
+
+        const campoNumero =
+            document.getElementById("numero");
+
+        const campoBairro =
+            document.getElementById("bairro");
+
+        const campoCidade =
+            document.getElementById("cidade");
+
+        const campoEstado =
+            document.getElementById("estado");
+
+        const mensagemCep =
+            document.getElementById(
+                "mensagem-cep"
+            );
+
+        const indicadorCep =
+            document.getElementById(
+                "indicador-cep"
+            );
+
+        const campoCepFrete =
+            document.getElementById(
+                "cep-frete"
+            );
+
+        const botaoCalcularFrete =
+            document.getElementById(
+                "botao-calcular-frete"
+            );
+
+        const mensagemFrete =
+            document.getElementById(
+                "mensagem-frete"
+            );
+
+        const valorFrete =
+            document.getElementById(
+                "valor-frete"
+            );
+
+        const valorTotal =
+            document.getElementById(
+                "valor-total"
+            );
+
+        const erroPagamento =
+            document.getElementById(
+                "erro-pagamento"
+            );
+
+
+        function somenteNumeros(valor) {
+
+            return valor.replace(
+                /\D/g,
+                ""
+            );
+
+        }
+
+
+        function formatarCep(valor) {
+
+            const numeros =
+                somenteNumeros(valor)
+                    .slice(0, 8);
+
+            if (numeros.length <= 5) {
+                return numeros;
+            }
+
+            return (
+                numeros.slice(0, 5)
+                + "-"
+                + numeros.slice(5)
+            );
+
+        }
+
+
+        function formatarTelefone(valor) {
+
+            const numeros =
+                somenteNumeros(valor)
+                    .slice(0, 11);
+
+
+            if (numeros.length <= 2) {
+
+                return numeros;
+
+            }
+
+
+            if (numeros.length <= 6) {
+
+                return (
+                    "("
+                    + numeros.slice(0, 2)
+                    + ") "
+                    + numeros.slice(2)
+                );
+
+            }
+
+
+            if (numeros.length <= 10) {
+
+                return (
+                    "("
+                    + numeros.slice(0, 2)
+                    + ") "
+                    + numeros.slice(2, 6)
+                    + "-"
+                    + numeros.slice(6)
+                );
+
+            }
+
+
+            return (
+                "("
+                + numeros.slice(0, 2)
+                + ") "
+                + numeros.slice(2, 7)
+                + "-"
+                + numeros.slice(7)
+            );
+
+        }
+
+
+        function formatarDinheiro(valor) {
+
+            return Number(valor).toLocaleString(
+                "pt-BR",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+        }
+
+
+        function mostrarErro(
+            campo,
+            mensagem
+        ) {
+
+            campo.classList.add(
+                "invalido"
+            );
+
+            const container =
+                campo.closest(".campo");
+
+            if (!container) {
+                return;
+            }
+
+            const erro =
+                container.querySelector(
+                    ".erro-campo"
+                );
+
+            if (erro) {
+                erro.textContent =
+                    mensagem;
+            }
+
+        }
+
+
+        function limparErro(campo) {
+
+            campo.classList.remove(
+                "invalido"
+            );
+
+            const container =
+                campo.closest(".campo");
+
+            if (!container) {
+                return;
+            }
+
+            const erro =
+                container.querySelector(
+                    ".erro-campo"
+                );
+
+            if (erro) {
+                erro.textContent = "";
+            }
+
+        }
+
+
+        function validarFormulario() {
+
+            let valido = true;
+
+            const nome =
+                campoNome.value.trim();
+
+            const email =
+                campoEmail.value.trim();
+
+            const telefone =
+                somenteNumeros(
+                    campoTelefone.value
+                );
+
+            const cep =
+                somenteNumeros(
+                    campoCep.value
+                );
+
+            const estado =
+                campoEstado.value
+                    .trim()
+                    .toUpperCase();
+
+
+            if (nome.length < 3) {
+
+                mostrarErro(
+                    campoNome,
+                    "Informe um nome válido."
+                );
+
+                valido = false;
+
+            } else {
+
+                limparErro(
+                    campoNome
+                );
+
+            }
+
+
+            if (
+                !campoEmail.checkValidity()
+            ) {
+
+                mostrarErro(
+                    campoEmail,
+                    "Informe um e-mail válido."
+                );
+
+                valido = false;
+
+            } else {
+
+                limparErro(
+                    campoEmail
+                );
+
+            }
+
+
+            if (
+                telefone
+                && ![10, 11].includes(
+                    telefone.length
+                )
+            ) {
+
+                mostrarErro(
+                    campoTelefone,
+                    "Informe telefone com DDD."
+                );
+
+                valido = false;
+
+            } else {
+
+                limparErro(
+                    campoTelefone
+                );
+
+            }
+
+
+            if (cep.length !== 8) {
+
+                mostrarErro(
+                    campoCep,
+                    "Informe um CEP válido."
+                );
+
+                valido = false;
+
+            } else {
+
+                limparErro(
+                    campoCep
+                );
+
+            }
+
+
+            [
+                campoRua,
+                campoNumero,
+                campoBairro,
+                campoCidade
+            ].forEach(
+                function (campo) {
+
+                    if (!campo.value.trim()) {
+
+                        mostrarErro(
+                            campo,
+                            "Campo obrigatório."
+                        );
+
+                        valido = false;
+
+                    } else {
+
+                        limparErro(
+                            campo
+                        );
+
+                    }
+
+                }
+            );
+
+
+            if (
+                estado.length !== 2
+                || !/^[A-Z]{2}$/.test(
+                    estado
+                )
+            ) {
+
+                mostrarErro(
+                    campoEstado,
+                    "UF inválida."
+                );
+
+                valido = false;
+
+            } else {
+
+                limparErro(
+                    campoEstado
+                );
+
+            }
+
+
+            const pagamento =
+                document.querySelector(
+                    'input[name="forma_pagamento"]:checked'
+                );
+
+            if (!pagamento) {
+
+                erroPagamento.textContent =
+                    "Selecione uma forma de pagamento.";
+
+                valido = false;
+
+            } else {
+
+                erroPagamento.textContent =
+                    "";
+
+            }
+
+
+            return valido;
+
+        }
+
+
+        async function consultarCep(cep) {
+
+            mensagemCep.textContent =
+                "Buscando endereço...";
+
+            mensagemCep.className =
+                "mensagem-cep carregando";
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `https://viacep.com.br/ws/${cep}/json/`
+                    );
+
+                const dados =
+                    await resposta.json();
+
+
+                if (
+                    !resposta.ok
+                    || dados.erro
+                ) {
+
+                    throw new Error();
+
+                }
+
+
+                campoRua.value =
+                    dados.logradouro || "";
+
+                campoBairro.value =
+                    dados.bairro || "";
+
+                campoCidade.value =
+                    dados.localidade || "";
+
+                campoEstado.value =
+                    dados.uf || "";
+
+
+                mensagemCep.textContent =
+                    "Endereço preenchido automaticamente.";
+
+                mensagemCep.className =
+                    "mensagem-cep sucesso";
+
+
+                campoCepFrete.value =
+                    formatarCep(
+                        cep
+                    );
+
+
+                campoNumero.focus();
+
+            }
+
+            catch (erro) {
+
+                mensagemCep.textContent =
+                    "CEP não encontrado. Preencha o endereço manualmente.";
+
+                mensagemCep.className =
+                    "mensagem-cep erro";
+
+            }
+
+        }
+
+
+        campoTelefone.addEventListener(
+            "input",
+            function () {
+
+                campoTelefone.value =
+                    formatarTelefone(
+                        campoTelefone.value
+                    );
+
+                limparErro(
+                    campoTelefone
+                );
+
+            }
+        );
+
+
+        campoCep.addEventListener(
+            "input",
+            function () {
+
+                campoCep.value =
+                    formatarCep(
+                        campoCep.value
+                    );
+
+                campoCepFrete.value =
+                    campoCep.value;
+
+                limparErro(
+                    campoCep
+                );
+
+                const cep =
+                    somenteNumeros(
+                        campoCep.value
+                    );
+
+                if (cep.length === 8) {
+
+                    consultarCep(
+                        cep
+                    );
+
+                }
+
+            }
+        );
+
+
+        campoEstado.addEventListener(
+            "input",
+            function () {
+
+                campoEstado.value =
+                    campoEstado.value
+                        .toUpperCase()
+                        .replace(
+                            /[^A-Z]/g,
+                            ""
+                        )
+                        .slice(0, 2);
+
+                limparErro(
+                    campoEstado
+                );
+
+            }
+        );
+
+
+        campoCepFrete.addEventListener(
+            "input",
+            function () {
+
+                campoCepFrete.value =
+                    formatarCep(
+                        campoCepFrete.value
+                    );
+
+            }
+        );
+
+
+        botaoCalcularFrete.addEventListener(
+            "click",
+            async function () {
+
+                const cep =
+                    somenteNumeros(
+                        campoCepFrete.value
+                    );
+
+
+                if (cep.length !== 8) {
+
+                    mensagemFrete.textContent =
+                        "Informe um CEP válido.";
+
+                    mensagemFrete.className =
+                        "mensagem-cep erro";
+
+                    return;
+
+                }
+
+
+                const tokenCsrf =
+                    document.querySelector(
+                        "#form-checkout input[name='csrfmiddlewaretoken']"
+                    ).value;
+
+
+                const dados =
+                    new FormData();
+
+                dados.append(
+                    "cep",
+                    campoCepFrete.value
+                );
+
+                dados.append(
+                    "csrfmiddlewaretoken",
+                    tokenCsrf
+                );
+
+
+                botaoCalcularFrete.disabled =
+                    true;
+
+                botaoCalcularFrete.textContent =
+                    "Calculando...";
+
+
+                try {
+
+                    const resposta =
+                        await fetch(
+                            "{% url 'loja:calcular_frete' %}",
+                            {
+                                method: "POST",
+                                body: dados
+                            }
+                        );
+
+                    const resultado =
+                        await resposta.json();
+
+
+                    if (
+                        !resposta.ok
+                        || !resultado.sucesso
+                    ) {
+
+                        throw new Error(
+                            resultado.erro
+                        );
+
+                    }
+
+
+                    valorFrete.textContent =
+                        "R$ "
+                        + formatarDinheiro(
+                            resultado.frete
+                        );
+
+                    valorTotal.textContent =
+                        "R$ "
+                        + formatarDinheiro(
+                            resultado.total
+                        );
+
+                    mensagemFrete.textContent =
+                        "Frete calculado com sucesso.";
+
+                    mensagemFrete.className =
+                        "mensagem-cep sucesso";
+
+                }
+
+                catch (erro) {
+
+                    mensagemFrete.textContent =
+                        erro.message
+                        || "Erro ao calcular frete.";
+
+                    mensagemFrete.className =
+                        "mensagem-cep erro";
+
+                }
+
+                finally {
+
+                    botaoCalcularFrete.disabled =
+                        false;
+
+                    botaoCalcularFrete.textContent =
+                        "Calcular";
+
+                }
+
+            }
+        );
+
+
+        formCheckout.addEventListener(
+            "submit",
+            function (evento) {
+
+                if (
+                    !validarFormulario()
+                ) {
+
+                    evento.preventDefault();
+
+                    const primeiroInvalido =
+                        document.querySelector(
+                            ".invalido"
+                        );
+
+                    if (primeiroInvalido) {
+
+                        primeiroInvalido.focus();
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
 

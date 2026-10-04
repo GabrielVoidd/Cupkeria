@@ -1,20 +1,28 @@
 from decimal import Decimal
+import re
 
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 from django.shortcuts import (
-    render,
-    redirect,
     get_object_or_404,
+    redirect,
+    render,
 )
 
 from .models import (
-    Cupcake,
-    Restricao,
     Cliente,
+    Cupcake,
     Endereco,
-    Pedido,
-    ItemPedido,
     HistoricoStatus,
+    ItemPedido,
+    Pedido,
+    Restricao,
 )
+
+
+def somente_numeros(valor):
+    return re.sub(r"\D", "", valor or "")
 
 
 def home(request):
@@ -70,10 +78,7 @@ def adicionar_carrinho(
     else:
         carrinho[cupcake_id] = 1
 
-    request.session["carrinho"] = (
-        carrinho
-    )
-
+    request.session["carrinho"] = carrinho
     request.session.modified = True
 
     return redirect(
@@ -82,11 +87,9 @@ def adicionar_carrinho(
 
 
 def carrinho(request):
-    carrinho_session = (
-        request.session.get(
-            "carrinho",
-            {}
-        )
+    carrinho_session = request.session.get(
+        "carrinho",
+        {}
     )
 
     itens = []
@@ -114,11 +117,9 @@ def carrinho(request):
             "total_item": total_item,
         })
 
-    embalagem_presente = (
-        request.session.get(
-            "embalagem_presente",
-            False
-        )
+    embalagem_presente = request.session.get(
+        "embalagem_presente",
+        False
     )
 
     valor_embalagem = (
@@ -165,10 +166,7 @@ def aumentar_quantidade(
     if cupcake_id in carrinho:
         carrinho[cupcake_id] += 1
 
-    request.session["carrinho"] = (
-        carrinho
-    )
-
+    request.session["carrinho"] = carrinho
     request.session.modified = True
 
     return redirect(
@@ -193,14 +191,9 @@ def diminuir_quantidade(
         carrinho[cupcake_id] -= 1
 
         if carrinho[cupcake_id] <= 0:
-            del carrinho[
-                cupcake_id
-            ]
+            del carrinho[cupcake_id]
 
-    request.session["carrinho"] = (
-        carrinho
-    )
-
+    request.session["carrinho"] = carrinho
     request.session.modified = True
 
     return redirect(
@@ -222,14 +215,9 @@ def remover_carrinho(
     )
 
     if cupcake_id in carrinho:
-        del carrinho[
-            cupcake_id
-        ]
+        del carrinho[cupcake_id]
 
-    request.session["carrinho"] = (
-        carrinho
-    )
-
+    request.session["carrinho"] = carrinho
     request.session.modified = True
 
     return redirect(
@@ -255,11 +243,9 @@ def alternar_embalagem(request):
 
 
 def calcular_totais(request):
-    carrinho_session = (
-        request.session.get(
-            "carrinho",
-            {}
-        )
+    carrinho_session = request.session.get(
+        "carrinho",
+        {}
     )
 
     subtotal = Decimal("0.00")
@@ -278,11 +264,9 @@ def calcular_totais(request):
             * quantidade
         )
 
-    embalagem_presente = (
-        request.session.get(
-            "embalagem_presente",
-            False
-        )
+    embalagem_presente = request.session.get(
+        "embalagem_presente",
+        False
     )
 
     valor_embalagem = (
@@ -308,19 +292,16 @@ def calcular_totais(request):
 
     return {
         "subtotal": subtotal,
-        "valor_embalagem":
-            valor_embalagem,
+        "valor_embalagem": valor_embalagem,
         "frete": frete,
         "total": total,
     }
 
 
 def checkout(request):
-    carrinho_session = (
-        request.session.get(
-            "carrinho",
-            {}
-        )
+    carrinho_session = request.session.get(
+        "carrinho",
+        {}
     )
 
     if not carrinho_session:
@@ -333,6 +314,21 @@ def checkout(request):
     )
 
     erro = None
+
+    dados_formulario = {
+        "nome": "",
+        "email": "",
+        "telefone": "",
+        "cep": "",
+        "rua": "",
+        "numero": "",
+        "complemento": "",
+        "bairro": "",
+        "cidade": "",
+        "estado": "",
+        "forma_pagamento": "",
+        "mensagem_personalizada": "",
+    }
 
     if request.method == "POST":
         nome = request.POST.get(
@@ -385,11 +381,9 @@ def checkout(request):
             ""
         ).strip().upper()
 
-        forma_pagamento = (
-            request.POST.get(
-                "forma_pagamento",
-                ""
-            )
+        forma_pagamento = request.POST.get(
+            "forma_pagamento",
+            ""
         )
 
         mensagem = request.POST.get(
@@ -397,34 +391,131 @@ def checkout(request):
             ""
         ).strip()
 
-        campos_obrigatorios = [
-            nome,
-            email,
-            cep,
-            rua,
-            numero,
-            bairro,
-            cidade,
-            estado,
-            forma_pagamento,
-        ]
+        dados_formulario = {
+            "nome": nome,
+            "email": email,
+            "telefone": telefone,
+            "cep": cep,
+            "rua": rua,
+            "numero": numero,
+            "complemento": complemento,
+            "bairro": bairro,
+            "cidade": cidade,
+            "estado": estado,
+            "forma_pagamento":
+                forma_pagamento,
+            "mensagem_personalizada":
+                mensagem,
+        }
 
-        if not all(
-            campos_obrigatorios
-        ):
+        if len(nome) < 3:
             erro = (
-                "Preencha todos os "
-                "campos obrigatórios."
+                "Informe um nome válido "
+                "com pelo menos 3 caracteres."
             )
 
-        else:
+        if not erro:
+            try:
+                validate_email(
+                    email
+                )
+
+            except ValidationError:
+                erro = (
+                    "Informe um endereço "
+                    "de e-mail válido."
+                )
+
+        telefone_numeros = somente_numeros(
+            telefone
+        )
+
+        if (
+            not erro
+            and telefone
+            and len(telefone_numeros)
+            not in (10, 11)
+        ):
+            erro = (
+                "Informe um telefone válido "
+                "com DDD."
+            )
+
+        cep_numeros = somente_numeros(
+            cep
+        )
+
+        if (
+            not erro
+            and len(cep_numeros) != 8
+        ):
+            erro = (
+                "Informe um CEP válido "
+                "com 8 dígitos."
+            )
+
+        if (
+            not erro
+            and not rua
+        ):
+            erro = (
+                "Informe a rua do endereço."
+            )
+
+        if (
+            not erro
+            and not numero
+        ):
+            erro = (
+                "Informe o número "
+                "do endereço."
+            )
+
+        if (
+            not erro
+            and not bairro
+        ):
+            erro = (
+                "Informe o bairro."
+            )
+
+        if (
+            not erro
+            and not cidade
+        ):
+            erro = (
+                "Informe a cidade."
+            )
+
+        if (
+            not erro
+            and (
+                len(estado) != 2
+                or not estado.isalpha()
+            )
+        ):
+            erro = (
+                "Informe uma UF válida "
+                "com 2 letras."
+            )
+
+        if (
+            not erro
+            and forma_pagamento
+            not in ("pix", "cartao")
+        ):
+            erro = (
+                "Selecione uma forma "
+                "de pagamento válida."
+            )
+
+        if not erro:
             request.session[
                 "checkout"
             ] = {
                 "nome": nome,
                 "email": email,
                 "telefone": telefone,
-
                 "cep": cep,
                 "rua": rua,
                 "numero": numero,
@@ -433,17 +524,13 @@ def checkout(request):
                 "bairro": bairro,
                 "cidade": cidade,
                 "estado": estado,
-
                 "forma_pagamento":
                     forma_pagamento,
-
                 "mensagem_personalizada":
                     mensagem,
             }
 
-            request.session.modified = (
-                True
-            )
+            request.session.modified = True
 
             return redirect(
                 "loja:finalizar_pedido"
@@ -454,9 +541,7 @@ def checkout(request):
             totais["subtotal"],
 
         "valor_embalagem":
-            totais[
-                "valor_embalagem"
-            ],
+            totais["valor_embalagem"],
 
         "embalagem_presente":
             request.session.get(
@@ -472,6 +557,9 @@ def checkout(request):
 
         "erro":
             erro,
+
+        "dados":
+            dados_formulario,
     }
 
     return render(
@@ -482,38 +570,63 @@ def checkout(request):
 
 
 def calcular_frete(request):
-    if request.method == "POST":
-        cep = request.POST.get(
-            "cep",
-            ""
-        ).strip()
+    if request.method != "POST":
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "erro": "Método inválido."
+            },
+            status=405
+        )
 
-        if cep:
-            request.session[
-                "frete"
-            ] = "12.00"
+    cep = request.POST.get(
+        "cep",
+        ""
+    ).strip()
 
-            request.session.modified = (
-                True
-            )
-
-    return redirect(
-        "loja:checkout"
+    cep_numeros = somente_numeros(
+        cep
     )
+
+    if len(cep_numeros) != 8:
+        return JsonResponse(
+            {
+                "sucesso": False,
+                "erro":
+                    "Informe um CEP válido."
+            },
+            status=400
+        )
+
+    request.session[
+        "frete"
+    ] = "12.00"
+
+    request.session.modified = True
+
+    totais = calcular_totais(
+        request
+    )
+
+    return JsonResponse({
+        "sucesso": True,
+        "frete": (
+            f"{totais['frete']:.2f}"
+        ),
+        "total": (
+            f"{totais['total']:.2f}"
+        ),
+    })
 
 
 def finalizar_pedido(request):
-    carrinho_session = (
-        request.session.get(
-            "carrinho",
-            {}
-        )
+    carrinho_session = request.session.get(
+        "carrinho",
+        {}
     )
 
-    checkout_session = (
-        request.session.get(
-            "checkout"
-        )
+    checkout_session = request.session.get(
+        "checkout"
     )
 
     if not carrinho_session:
@@ -530,38 +643,32 @@ def finalizar_pedido(request):
         request
     )
 
-    cliente, criado = (
-        Cliente.objects.get_or_create(
-            email=checkout_session[
-                "email"
-            ],
+    cliente, criado = Cliente.objects.get_or_create(
+        email=checkout_session[
+            "email"
+        ],
 
-            defaults={
-                "nome":
-                    checkout_session[
-                        "nome"
-                    ],
+        defaults={
+            "nome":
+                checkout_session[
+                    "nome"
+                ],
 
-                "telefone":
-                    checkout_session[
-                        "telefone"
-                    ],
-            }
-        )
+            "telefone":
+                checkout_session[
+                    "telefone"
+                ],
+        }
     )
 
     if not criado:
-        cliente.nome = (
-            checkout_session[
-                "nome"
-            ]
-        )
+        cliente.nome = checkout_session[
+            "nome"
+        ]
 
-        cliente.telefone = (
-            checkout_session[
-                "telefone"
-            ]
-        )
+        cliente.telefone = checkout_session[
+            "telefone"
+        ]
 
         cliente.save()
 

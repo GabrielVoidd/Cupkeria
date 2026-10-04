@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
 
@@ -18,11 +19,11 @@ body {
 
 .pagina {
     width: 100%;
-    max-width: 760px;
+    max-width: 980px;
 
     margin: 0 auto;
 
-    padding: 30px 16px;
+    padding: 36px 20px 60px;
 }
 
 
@@ -42,9 +43,10 @@ body {
 .subtitulo {
     color: #f00079;
 
-    font-size: 13px;
-
+    font-size: 12px;
     font-weight: bold;
+
+    letter-spacing: 1.3px;
 
     text-transform: uppercase;
 }
@@ -52,9 +54,9 @@ body {
 
 .cabecalho h1 {
     margin:
-        5px 0 6px;
+        6px 0 7px;
 
-    font-size: 28px;
+    font-size: 32px;
 }
 
 
@@ -66,11 +68,36 @@ body {
 
 
 .voltar {
+    min-height: 42px;
+
+    padding: 0 15px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    background-color: white;
+
     color: #111827;
 
     text-decoration: none;
 
+    font-size: 14px;
     font-weight: bold;
+
+    transition: 0.2s;
+}
+
+
+.voltar:hover {
+    border-color: #f52c91;
+
+    color: #f00079;
 }
 
 
@@ -81,7 +108,7 @@ body {
 
     gap: 10px;
 
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 
@@ -95,13 +122,14 @@ body {
     align-items: center;
     justify-content: center;
 
-    border-radius: 8px;
+    border-radius: 9px;
 
     text-decoration: none;
 
     font-size: 14px;
-
     font-weight: bold;
+
+    transition: 0.2s;
 }
 
 
@@ -128,85 +156,283 @@ body {
 
 
 .botao-secundario:hover {
-    background-color: #f9fafb;
+    border-color: #f52c91;
+
+    color: #f00079;
 }
 
 
-/* STATUS */
+/* STATUS ATUAL */
 
 .status-atual {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    gap: 20px;
+    gap: 30px;
 
-    padding: 18px 20px;
+    padding: 18px 22px;
 
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+
+    border:
+        1px solid #fbcfe8;
 
     border-radius: 12px;
 
     background-color: #fdf2f8;
+}
 
-    border:
-        1px solid #fbcfe8;
+
+.status-atual > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.status-atual span {
+    color: #6b7280;
+
+    font-size: 13px;
 }
 
 
 .status-atual strong {
     color: #be185d;
+
+    font-size: 18px;
+}
+
+
+.status-atual .status-descricao {
+    color: #9d174d;
+
+    font-size: 14px;
 }
 
 
 /* CARD */
 
 .card {
-    padding: 22px;
+    padding: 24px;
 
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 
     background-color: white;
 
     border:
         1px solid #e5e7eb;
 
-    border-radius: 13px;
+    border-radius: 14px;
 
     box-shadow:
-        0 2px 7px
-        rgba(0, 0, 0, 0.05);
+        0 3px 10px
+        rgba(0, 0, 0, 0.04);
 }
 
 
 .card h2 {
-    margin-top: 0;
+    margin:
+        0 0 18px;
 
     font-size: 20px;
 }
 
 
-/* TIMELINE */
-
-.timeline {
+.cabecalho-card {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
 
-    gap: 18px;
+    gap: 20px;
+
+    margin-bottom: 28px;
 }
 
 
-.evento {
+.cabecalho-card h2 {
+    margin:
+        4px 0 0;
+}
+
+
+.rotulo-card {
+    color: #f00079;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    letter-spacing: 1.2px;
+}
+
+
+.status-resumido {
+    padding:
+        7px 11px;
+
+    border-radius: 999px;
+
+    background-color: #fdf2f8;
+
+    color: #be185d;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* PROGRESSO */
+
+.progresso-pedido {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(130px, 1fr)
+        minmax(50px, 1fr)
+        minmax(150px, 1fr)
+        minmax(50px, 1fr)
+        minmax(130px, 1fr);
+
+    align-items: start;
+}
+
+
+.etapa-progresso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-width: 0;
+
+    text-align: center;
+}
+
+
+.circulo-etapa {
+    width: 48px;
+    height: 48px;
+
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border:
+        2px solid #d1d5db;
+
+    background-color: white;
+
+    color: #9ca3af;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    position: relative;
+
+    z-index: 2;
+
+    transition: 0.2s;
+}
+
+
+.etapa-progresso.concluida
+.circulo-etapa {
+    border-color: #10b981;
+
+    background-color: #10b981;
+
+    color: white;
+}
+
+
+.etapa-progresso.pendente
+.circulo-etapa {
+    background-color: #f9fafb;
+
+    color: #9ca3af;
+}
+
+
+.texto-etapa {
+    margin-top: 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.texto-etapa strong {
+    font-size: 14px;
+}
+
+
+.texto-etapa span {
+    color: #9ca3af;
+
+    font-size: 12px;
+}
+
+
+.texto-etapa
+.etapa-atual-texto {
+    color: #f00079;
+
+    font-weight: bold;
+}
+
+
+.linha-progresso {
+    height: 4px;
+
+    margin-top: 22px;
+
+    border-radius: 999px;
+
+    background-color: #e5e7eb;
+}
+
+
+.linha-progresso.concluida {
+    background-color: #10b981;
+}
+
+
+/* HISTÓRICO */
+
+.timeline-historico {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.evento-historico {
+    display: grid;
+
+    grid-template-columns:
+        34px
+        1fr;
 
     gap: 14px;
 }
 
 
-.marcador {
-    width: 38px;
-    height: 38px;
+.coluna-marcador {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.marcador-historico {
+    width: 30px;
+    height: 30px;
 
     flex-shrink: 0;
 
@@ -220,11 +446,26 @@ body {
 
     color: white;
 
+    font-size: 13px;
     font-weight: bold;
 }
 
 
-.evento > div:last-child {
+.linha-historico {
+    width: 2px;
+
+    min-height: 36px;
+
+    flex: 1;
+
+    background-color: #d1fae5;
+}
+
+
+.conteudo-historico {
+    padding:
+        4px 0 26px;
+
     display: flex;
     flex-direction: column;
 
@@ -232,10 +473,20 @@ body {
 }
 
 
-.evento span {
+.conteudo-historico strong {
+    font-size: 14px;
+}
+
+
+.conteudo-historico span {
     color: #6b7280;
 
     font-size: 13px;
+}
+
+
+.sem-historico {
+    color: #6b7280;
 }
 
 
@@ -248,7 +499,7 @@ body {
 
     gap: 20px;
 
-    padding: 13px 0;
+    padding: 14px 0;
 
     border-bottom:
         1px solid #e5e7eb;
@@ -259,7 +510,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    gap: 4px;
+    gap: 5px;
 }
 
 
@@ -273,13 +524,15 @@ body {
 /* RESUMO */
 
 .resumo {
-    margin-top: 15px;
+    margin-top: 16px;
 }
 
 
 .resumo > div {
     display: flex;
     justify-content: space-between;
+
+    gap: 20px;
 
     padding: 8px 0;
 
@@ -304,11 +557,81 @@ body {
 }
 
 
+/* INFORMAÇÕES */
+
+.grade-informacoes {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.5fr;
+
+    gap: 20px;
+}
+
+
+.grade-informacoes .card {
+    margin-bottom: 20px;
+}
+
+
 .card p {
     margin:
         7px 0;
 
     color: #4b5563;
+
+    line-height: 1.5;
+}
+
+
+/* TABLET */
+
+@media (max-width: 760px) {
+
+    .progresso-pedido {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .etapa-progresso {
+        min-height: 86px;
+
+        display: grid;
+
+        grid-template-columns:
+            48px
+            1fr;
+
+        align-items: start;
+
+        gap: 14px;
+
+        text-align: left;
+    }
+
+
+    .texto-etapa {
+        margin-top: 5px;
+    }
+
+
+    .linha-progresso {
+        width: 4px;
+        height: 38px;
+
+        margin:
+            -28px 0
+            -2px 22px;
+    }
+
+
+    .grade-informacoes {
+        grid-template-columns:
+            1fr;
+    }
+
 }
 
 
@@ -316,13 +639,27 @@ body {
 
 @media (max-width: 600px) {
 
+    .pagina {
+        padding:
+            24px 14px
+            40px;
+    }
+
+
     .cabecalho {
         flex-direction: column;
     }
 
+
+    .voltar {
+        width: 100%;
+    }
+
+
     .acoes-pedido {
         flex-direction: column;
     }
+
 
     .status-atual {
         align-items: flex-start;
@@ -330,6 +667,25 @@ body {
         flex-direction: column;
 
         gap: 8px;
+    }
+
+
+    .card {
+        padding: 20px;
+    }
+
+
+    .cabecalho-card {
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-bottom: 24px;
+    }
+
+
+    .item {
+        align-items: flex-start;
     }
 
 }

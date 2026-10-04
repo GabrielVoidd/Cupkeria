@@ -49,29 +49,63 @@ body {
     color: #6b7280;
 }
 
+.subtitulo-checkout {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #f00079;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    letter-spacing: 1.4px;
+}
+
 .voltar {
-    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+
+    background-color: white;
 
     color: #111827;
 
+    font-size: 14px;
     font-weight: bold;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.voltar:hover {
+    border-color: #f52c91;
+
+    color: #f00079;
 }
 
 
-/* ERRO */
+/* ERRO GERAL */
 
 .alerta-erro {
     padding: 14px 16px;
 
     margin-bottom: 18px;
 
+    border: 1px solid #fecaca;
     border-radius: 8px;
 
     background-color: #fee2e2;
 
     color: #991b1b;
-
-    border: 1px solid #fecaca;
 }
 
 
@@ -81,9 +115,12 @@ body {
     display: grid;
 
     grid-template-columns:
-        minmax(0, 1fr) 360px;
+        minmax(0, 1fr)
+        360px;
 
     gap: 24px;
+
+    align-items: start;
 }
 
 
@@ -91,11 +128,10 @@ body {
 
 .bloco,
 .resumo-pedido {
-    background-color: white;
-
     border: 1px solid #e5e7eb;
-
     border-radius: 14px;
+
+    background-color: white;
 
     box-shadow:
         0 2px 8px rgba(0, 0, 0, 0.05);
@@ -117,6 +153,30 @@ body {
 }
 
 
+/* ENDEREÇO */
+
+.titulo-endereco {
+    margin-top: 30px;
+    margin-bottom: 18px;
+
+    padding-top: 26px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.titulo-endereco h2 {
+    margin: 0 0 5px;
+}
+
+.titulo-endereco p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
 /* CAMPOS */
 
 .campo {
@@ -132,7 +192,6 @@ body {
 
 .campo label {
     font-size: 14px;
-
     font-weight: bold;
 }
 
@@ -143,14 +202,22 @@ body {
     padding: 12px 13px;
 
     border: 1px solid #d1d5db;
-
     border-radius: 8px;
-
-    font-size: 14px;
 
     outline: none;
 
     background-color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
 }
 
 .campo input:focus,
@@ -158,7 +225,27 @@ body {
     border-color: #f52c91;
 
     box-shadow:
-        0 0 0 3px rgba(245, 44, 145, 0.10);
+        0 0 0 3px
+        rgba(245, 44, 145, 0.10);
+}
+
+.campo input.invalido,
+.campo textarea.invalido {
+    border-color: #ef4444;
+
+    background-color: #fff7f7;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(239, 68, 68, 0.08);
+}
+
+.erro-campo {
+    min-height: 16px;
+
+    color: #dc2626;
+
+    font-size: 12px;
 }
 
 .linha-campos {
@@ -180,6 +267,69 @@ body {
 }
 
 
+/* CEP */
+
+.area-cep {
+    max-width: 330px;
+}
+
+.campo-cep {
+    width: 100%;
+}
+
+.controle-cep {
+    position: relative;
+}
+
+.controle-cep input {
+    padding-right: 42px;
+}
+
+.indicador-cep {
+    width: 24px;
+    height: 24px;
+
+    position: absolute;
+
+    top: 50%;
+    right: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform:
+        translateY(-50%);
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.mensagem-cep {
+    display: block;
+
+    min-height: 17px;
+
+    margin-top: 6px;
+
+    font-size: 12px;
+}
+
+.mensagem-cep.carregando {
+    color: #6b7280;
+}
+
+.mensagem-cep.sucesso {
+    color: #15803d;
+}
+
+.mensagem-cep.erro {
+    color: #dc2626;
+}
+
+
 /* PAGAMENTO */
 
 .opcao-pagamento {
@@ -193,14 +343,17 @@ body {
     margin-bottom: 12px;
 
     border: 1px solid #e5e7eb;
-
     border-radius: 10px;
 
     cursor: pointer;
+
+    transition: 0.2s;
 }
 
 .opcao-pagamento:hover {
     border-color: #f52c91;
+
+    background-color: #fff7fb;
 }
 
 .opcao-pagamento input {
@@ -260,9 +413,8 @@ body {
 
     margin-bottom: 8px;
 
-    font-weight: bold;
-
     font-size: 14px;
+    font-weight: bold;
 }
 
 .frete-controles {
@@ -279,17 +431,19 @@ body {
     padding: 11px 12px;
 
     border: 1px solid #d1d5db;
-
     border-radius: 8px;
 
     outline: none;
 }
 
-.frete-controles button {
-    border: none;
+.frete-controles input:focus {
+    border-color: #f52c91;
+}
 
+.frete-controles button {
     padding: 0 16px;
 
+    border: none;
     border-radius: 8px;
 
     background-color: #111827;
@@ -299,6 +453,18 @@ body {
     font-weight: bold;
 
     cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.frete-controles button:hover {
+    background-color: #374151;
+}
+
+.frete-controles button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
 }
 
 
@@ -316,7 +482,6 @@ body {
     border-top: 2px solid #e5e7eb;
 
     font-size: 20px;
-
     font-weight: bold;
 }
 
@@ -327,7 +492,7 @@ body {
 }
 
 
-/* BOTÃO */
+/* FINALIZAR */
 
 .botao-finalizar {
     width: 100%;
@@ -337,16 +502,14 @@ body {
     padding: 15px;
 
     border: none;
-
     border-radius: 9px;
 
     background-color: #f52c91;
 
     color: white;
 
-    font-weight: bold;
-
     font-size: 15px;
+    font-weight: bold;
 
     cursor: pointer;
 
@@ -384,6 +547,10 @@ body {
         flex-direction: column;
     }
 
+    .voltar {
+        width: 100%;
+    }
+
     .linha-campos {
         flex-direction: column;
 
@@ -391,6 +558,10 @@ body {
     }
 
     .campo-estado {
+        max-width: none;
+    }
+
+    .area-cep {
         max-width: none;
     }
 

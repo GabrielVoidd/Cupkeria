@@ -78,35 +78,265 @@
 
         <section class="status-atual">
 
-            <span>
-                Status atual
-            </span>
+            <div>
 
-            <strong>
-                {{ pedido.get_status_display }}
-            </strong>
+                <span>
+                    Status atual
+                </span>
+
+                <strong>
+                    {{ pedido.get_status_display }}
+                </strong>
+
+            </div>
+
+            {% if pedido.status == "preparando" %}
+
+                <span class="status-descricao">
+                    Seu pedido está sendo preparado.
+                </span>
+
+            {% elif pedido.status == "saiu_entrega" %}
+
+                <span class="status-descricao">
+                    Seu pedido está a caminho.
+                </span>
+
+            {% elif pedido.status == "entregue" %}
+
+                <span class="status-descricao">
+                    Pedido entregue com sucesso.
+                </span>
+
+            {% endif %}
+
+        </section>
+
+
+        <section class="card card-rastreamento">
+
+            <div class="cabecalho-card">
+
+                <div>
+
+                    <span class="rotulo-card">
+                        ACOMPANHAMENTO
+                    </span>
+
+                    <h2>
+                        Progresso do Pedido
+                    </h2>
+
+                </div>
+
+                <span class="status-resumido">
+                    {{ pedido.get_status_display }}
+                </span>
+
+            </div>
+
+
+            <div class="progresso-pedido">
+
+
+                <div class="etapa-progresso concluida">
+
+                    <div class="circulo-etapa">
+                        ✓
+                    </div>
+
+                    <div class="texto-etapa">
+
+                        <strong>
+                            Preparando
+                        </strong>
+
+                        {% if pedido.status == "preparando" %}
+
+                            <span class="etapa-atual-texto">
+                                Etapa atual
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                Concluído
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        linha-progresso
+
+                        {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
+                            concluida
+                        {% endif %}
+                    "
+                ></div>
+
+
+                <div
+                    class="
+                        etapa-progresso
+
+                        {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
+                            concluida
+                        {% else %}
+                            pendente
+                        {% endif %}
+                    "
+                >
+
+                    <div class="circulo-etapa">
+
+                        {% if pedido.status == "saiu_entrega" or pedido.status == "entregue" %}
+                            ✓
+                        {% else %}
+                            2
+                        {% endif %}
+
+                    </div>
+
+                    <div class="texto-etapa">
+
+                        <strong>
+                            Saiu para Entrega
+                        </strong>
+
+                        {% if pedido.status == "saiu_entrega" %}
+
+                            <span class="etapa-atual-texto">
+                                Etapa atual
+                            </span>
+
+                        {% elif pedido.status == "entregue" %}
+
+                            <span>
+                                Concluído
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                Aguardando
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        linha-progresso
+
+                        {% if pedido.status == 'entregue' %}
+                            concluida
+                        {% endif %}
+                    "
+                ></div>
+
+
+                <div
+                    class="
+                        etapa-progresso
+
+                        {% if pedido.status == 'entregue' %}
+                            concluida
+                        {% else %}
+                            pendente
+                        {% endif %}
+                    "
+                >
+
+                    <div class="circulo-etapa">
+
+                        {% if pedido.status == "entregue" %}
+                            ✓
+                        {% else %}
+                            3
+                        {% endif %}
+
+                    </div>
+
+                    <div class="texto-etapa">
+
+                        <strong>
+                            Entregue
+                        </strong>
+
+                        {% if pedido.status == "entregue" %}
+
+                            <span class="etapa-atual-texto">
+                                Pedido concluído
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                Aguardando
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </section>
 
 
         <section class="card">
 
-            <h2>
-                Histórico do Pedido
-            </h2>
+            <div class="cabecalho-card">
+
+                <div>
+
+                    <span class="rotulo-card">
+                        HISTÓRICO
+                    </span>
+
+                    <h2>
+                        Movimentações do Pedido
+                    </h2>
+
+                </div>
+
+            </div>
 
 
-            <div class="timeline">
+            <div class="timeline-historico">
 
                 {% for historico in pedido.historico_status.all %}
 
-                    <div class="evento">
+                    <div class="evento-historico">
 
-                        <div class="marcador">
-                            ✓
+                        <div class="coluna-marcador">
+
+                            <div class="marcador-historico">
+                                ✓
+                            </div>
+
+                            {% if not forloop.last %}
+
+                                <div class="linha-historico"></div>
+
+                            {% endif %}
+
                         </div>
 
-                        <div>
+
+                        <div class="conteudo-historico">
 
                             <strong>
                                 {{ historico.get_status_display }}
@@ -122,7 +352,7 @@
 
                 {% empty %}
 
-                    <p>
+                    <p class="sem-historico">
                         Nenhum histórico disponível.
                     </p>
 
@@ -228,54 +458,60 @@
         </section>
 
 
-        <section class="card">
+        <div class="grade-informacoes">
 
-            <h2>
-                Pagamento
-            </h2>
+            <section class="card">
 
-            <p>
-                {{ pedido.get_forma_pagamento_display }}
-            </p>
-
-        </section>
-
-
-        <section class="card">
-
-            <h2>
-                Entrega
-            </h2>
-
-            <p>
-                {{ pedido.cliente.nome }}
-            </p>
-
-            <p>
-                {{ pedido.endereco.rua }},
-                {{ pedido.endereco.numero }}
-            </p>
-
-            {% if pedido.endereco.complemento %}
+                <h2>
+                    Pagamento
+                </h2>
 
                 <p>
-                    {{ pedido.endereco.complemento }}
+                    {{ pedido.get_forma_pagamento_display }}
                 </p>
 
-            {% endif %}
+            </section>
 
-            <p>
-                {{ pedido.endereco.bairro }}
-                -
-                {{ pedido.endereco.cidade }}/{{ pedido.endereco.estado }}
-            </p>
 
-            <p>
-                CEP:
-                {{ pedido.endereco.cep }}
-            </p>
+            <section class="card">
 
-        </section>
+                <h2>
+                    Entrega
+                </h2>
+
+                <p>
+                    <strong>
+                        {{ pedido.cliente.nome }}
+                    </strong>
+                </p>
+
+                <p>
+                    {{ pedido.endereco.rua }},
+                    {{ pedido.endereco.numero }}
+                </p>
+
+                {% if pedido.endereco.complemento %}
+
+                    <p>
+                        {{ pedido.endereco.complemento }}
+                    </p>
+
+                {% endif %}
+
+                <p>
+                    {{ pedido.endereco.bairro }}
+                    -
+                    {{ pedido.endereco.cidade }}/{{ pedido.endereco.estado }}
+                </p>
+
+                <p>
+                    CEP:
+                    {{ pedido.endereco.cep }}
+                </p>
+
+            </section>
+
+        </div>
 
 
         {% if pedido.mensagem_personalizada %}

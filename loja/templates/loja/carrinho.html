@@ -21,212 +21,299 @@
 
 <body>
 
-    <main class="painel-carrinho">
+    <main class="pagina-carrinho">
 
         <header class="cabecalho-carrinho">
 
-            <h1>
-                Seu Carrinho
-            </h1>
+            <div>
+                <span class="subtitulo">
+                    CARRINHO
+                </span>
+
+                <h1>
+                    Seu Carrinho
+                </h1>
+            </div>
 
             <a
                 href="{% url 'loja:home' %}"
-                class="fechar"
+                class="continuar-comprando"
             >
-                ×
+                ← Continuar comprando
             </a>
 
         </header>
 
 
-        <section class="lista-itens">
+        {% if itens %}
 
-            {% for item in itens %}
+            <div class="layout-carrinho">
 
-                <article class="item-carrinho">
+                <section class="area-produtos">
 
-                    {% if item.cupcake.imagem_estatica %}
+                    <div class="titulo-secao">
 
-                        {% static item.cupcake.imagem_estatica as imagem_url %}
+                        <h2>
+                            Produtos
+                        </h2>
 
-                        <img
-                            src="{{ imagem_url }}"
-                            alt="{{ item.cupcake.nome }}"
-                            class="imagem-item"
-                        >
-
-                    {% elif item.cupcake.imagem %}
-
-                        <img
-                            src="{{ item.cupcake.imagem.url }}"
-                            alt="{{ item.cupcake.nome }}"
-                            class="imagem-item"
-                        >
-
-                    {% else %}
-
-                        <div class="imagem-item sem-imagem">
-                            Sem imagem
-                        </div>
-
-                    {% endif %}
-
-
-                    <div class="informacoes-item">
-
-                        <span class="nome-produto">
-                            {{ item.cupcake.nome }}
+                        <span>
+                            Revise os itens antes de continuar
                         </span>
-
-                        <strong class="preco">
-                            R$ {{ item.cupcake.preco }}
-                        </strong>
-
-
-                        <div class="quantidade">
-
-                            <a
-                                href="{% url 'loja:diminuir_quantidade' item.cupcake.id %}"
-                                class="botao-quantidade"
-                                title="Diminuir quantidade"
-                            >
-                                −
-                            </a>
-
-                            <span>
-                                {{ item.quantidade }}
-                            </span>
-
-                            <a
-                                href="{% url 'loja:aumentar_quantidade' item.cupcake.id %}"
-                                class="botao-quantidade"
-                                title="Aumentar quantidade"
-                            >
-                                +
-                            </a>
-
-                        </div>
 
                     </div>
 
 
-                    <a
-                        href="{% url 'loja:remover_carrinho' item.cupcake.id %}"
-                        class="remover"
-                        title="Remover produto"
-                    >
-                        ×
-                    </a>
+                    <div class="lista-itens">
 
-                </article>
+                        {% for item in itens %}
 
-            {% empty %}
+                            <article class="item-carrinho">
 
-                <div class="carrinho-vazio">
+                                <div class="imagem-produto">
 
-                    <p>
-                        Seu carrinho está vazio.
-                    </p>
+                                    {% if item.cupcake.imagem_estatica %}
 
-                    <a href="{% url 'loja:home' %}">
-                        Ver cupcakes
-                    </a>
+                                        {% static item.cupcake.imagem_estatica as imagem_url %}
 
+                                        <img
+                                            src="{{ imagem_url }}"
+                                            alt="{{ item.cupcake.nome }}"
+                                            class="imagem-item"
+                                        >
+
+                                    {% elif item.cupcake.imagem %}
+
+                                        <img
+                                            src="{{ item.cupcake.imagem.url }}"
+                                            alt="{{ item.cupcake.nome }}"
+                                            class="imagem-item"
+                                        >
+
+                                    {% else %}
+
+                                        <div class="imagem-item sem-imagem">
+                                            Sem imagem
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="informacoes-item">
+
+                                    <div class="cabecalho-item">
+
+                                        <div>
+
+                                            <h3 class="nome-produto">
+                                                {{ item.cupcake.nome }}
+                                            </h3>
+
+                                            <span class="descricao-item">
+                                                Cupcake artesanal
+                                            </span>
+
+                                        </div>
+
+
+                                        <a
+                                            href="{% url 'loja:remover_carrinho' item.cupcake.id %}"
+                                            class="remover"
+                                            title="Remover produto"
+                                        >
+                                            Remover
+                                        </a>
+
+                                    </div>
+
+
+                                    <div class="rodape-item">
+
+                                        <div class="quantidade">
+
+                                            <a
+                                                href="{% url 'loja:diminuir_quantidade' item.cupcake.id %}"
+                                                class="botao-quantidade"
+                                                title="Diminuir quantidade"
+                                            >
+                                                −
+                                            </a>
+
+                                            <span class="valor-quantidade">
+                                                {{ item.quantidade }}
+                                            </span>
+
+                                            <a
+                                                href="{% url 'loja:aumentar_quantidade' item.cupcake.id %}"
+                                                class="botao-quantidade"
+                                                title="Aumentar quantidade"
+                                            >
+                                                +
+                                            </a>
+
+                                        </div>
+
+
+                                        <strong class="preco">
+                                            R$ {{ item.total_item }}
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                </section>
+
+
+                <aside class="area-resumo">
+
+                    <div class="card-resumo">
+
+                        <h2>
+                            Resumo do pedido
+                        </h2>
+
+
+                        <section class="embalagem">
+
+                            <a
+                                href="{% url 'loja:alternar_embalagem' %}"
+                                class="linha-embalagem"
+                            >
+
+                                <span
+                                    class="
+                                        checkbox
+                                        {% if embalagem_presente %}
+                                            marcado
+                                        {% endif %}
+                                    "
+                                >
+                                    {% if embalagem_presente %}
+                                        ✓
+                                    {% endif %}
+                                </span>
+
+
+                                <div class="texto-embalagem">
+
+                                    <strong>
+                                        🎁 Embalagem para presente
+                                    </strong>
+
+                                    <span>
+                                        Adicione uma embalagem especial
+                                    </span>
+
+                                </div>
+
+
+                                <span class="adicional">
+                                    + R$ 5,00
+                                </span>
+
+                            </a>
+
+                        </section>
+
+
+                        <section class="resumo">
+
+                            <div class="linha-resumo">
+
+                                <span>
+                                    Subtotal
+                                </span>
+
+                                <span>
+                                    R$ {{ subtotal }}
+                                </span>
+
+                            </div>
+
+
+                            {% if embalagem_presente %}
+
+                                <div class="linha-resumo">
+
+                                    <span>
+                                        Embalagem
+                                    </span>
+
+                                    <span>
+                                        R$ {{ valor_embalagem }}
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <div class="linha-total">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong>
+                                    R$ {{ total }}
+                                </strong>
+
+                            </div>
+
+                        </section>
+
+
+                        <a
+                            href="{% url 'loja:checkout' %}"
+                            class="botao-pagamento"
+                        >
+                            Ir para Pagamento
+                        </a>
+
+
+                        <p class="texto-seguranca">
+                            Revise seus produtos antes de finalizar o pedido.
+                        </p>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        {% else %}
+
+            <section class="carrinho-vazio">
+
+                <div class="icone-vazio">
+                    🛒
                 </div>
 
-            {% endfor %}
+                <h2>
+                    Seu carrinho está vazio
+                </h2>
 
-        </section>
-
-
-        {% if itens %}
-
-            <section class="embalagem">
+                <p>
+                    Adicione alguns cupcakes para continuar sua compra.
+                </p>
 
                 <a
-                    href="{% url 'loja:alternar_embalagem' %}"
-                    class="linha-embalagem"
+                    href="{% url 'loja:home' %}"
+                    class="botao-voltar-loja"
                 >
-
-                    <span
-                        class="
-                            checkbox
-                            {% if embalagem_presente %}
-                                marcado
-                            {% endif %}
-                        "
-                    >
-                        {% if embalagem_presente %}
-                            ✓
-                        {% endif %}
-                    </span>
-
-                    <span>
-                        🎁 Embalagem para Presente
-                    </span>
-
-                    <span class="adicional">
-                        (+ R$ 5,00)
-                    </span>
-
+                    Ver cupcakes
                 </a>
 
             </section>
-
-
-            <section class="resumo">
-
-                <div class="linha-resumo">
-
-                    <span>
-                        Subtotal
-                    </span>
-
-                    <span>
-                        R$ {{ subtotal }}
-                    </span>
-
-                </div>
-
-
-                {% if embalagem_presente %}
-
-                    <div class="linha-resumo">
-
-                        <span>
-                            Embalagem
-                        </span>
-
-                        <span>
-                            R$ {{ valor_embalagem }}
-                        </span>
-
-                    </div>
-
-                {% endif %}
-
-
-                <div class="linha-total">
-
-                    <strong>
-                        Total
-                    </strong>
-
-                    <strong>
-                        R$ {{ total }}
-                    </strong>
-
-                </div>
-
-            </section>
-
-
-            <a
-                href="{% url 'loja:checkout' %}"
-                class="botao-pagamento"
-            >
-                Ir para Pagamento
-            </a>
 
         {% endif %}
 
