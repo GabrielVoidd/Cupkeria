@@ -33,8 +33,12 @@
                 ✓
             </div>
 
+            <span class="rotulo-sucesso">
+                PEDIDO CONFIRMADO
+            </span>
+
             <h1>
-                Pedido #{{ pedido.id }} - Aprovado
+                Pedido #{{ pedido.id }}
             </h1>
 
             <p>
@@ -46,115 +50,179 @@
 
         <section class="card-status">
 
-            <div class="etapa concluida">
+            <div class="cabecalho-status">
 
-                <div class="icone-etapa">
-                    📦
-                </div>
+                <div>
 
-                <div class="conteudo-etapa">
-
-                    <strong>
-                        Preparando
-                    </strong>
-
-                    <span>
-                        Pedido recebido
+                    <span class="rotulo-status">
+                        ACOMPANHAMENTO
                     </span>
 
+                    <h2>
+                        Progresso do Pedido
+                    </h2>
+
                 </div>
+
+                <span class="status-atual">
+                    {{ pedido.get_status_display }}
+                </span>
 
             </div>
 
 
-            <div class="linha-status"></div>
+            <div class="progresso-pedido">
 
 
-            <div
-                class="
-                    etapa
+                <div class="etapa-progresso concluida">
 
-                    {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
-                        concluida
-                    {% else %}
-                        atual
-                    {% endif %}
-                "
-            >
+                    <div class="circulo-etapa">
+                        ✓
+                    </div>
 
-                <div class="icone-etapa">
-                    🚚
-                </div>
+                    <div class="texto-etapa">
 
-                <div class="conteudo-etapa">
+                        <strong>
+                            Preparando
+                        </strong>
 
-                    <strong>
-                        Saiu para Entrega
-                    </strong>
+                        {% if pedido.status == "preparando" %}
 
-                    {% if pedido.status == "preparando" %}
+                            <span class="etapa-atual-texto">
+                                Etapa atual
+                            </span>
 
-                        <span>
-                            Aguardando
-                        </span>
+                        {% else %}
 
-                    {% elif pedido.status == "saiu_entrega" %}
+                            <span>
+                                Concluído
+                            </span>
 
-                        <span>
-                            Em andamento
-                        </span>
+                        {% endif %}
 
-                    {% else %}
-
-                        <span>
-                            Concluído
-                        </span>
-
-                    {% endif %}
+                    </div>
 
                 </div>
 
-            </div>
+
+                <div
+                    class="
+                        linha-progresso
+
+                        {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
+                            concluida
+                        {% endif %}
+                    "
+                ></div>
 
 
-            <div class="linha-status"></div>
+                <div
+                    class="
+                        etapa-progresso
 
+                        {% if pedido.status == 'saiu_entrega' or pedido.status == 'entregue' %}
+                            concluida
+                        {% else %}
+                            pendente
+                        {% endif %}
+                    "
+                >
 
-            <div
-                class="
-                    etapa
+                    <div class="circulo-etapa">
 
-                    {% if pedido.status == 'entregue' %}
-                        concluida
-                    {% else %}
-                        pendente
-                    {% endif %}
-                "
-            >
+                        {% if pedido.status == "saiu_entrega" or pedido.status == "entregue" %}
+                            ✓
+                        {% else %}
+                            2
+                        {% endif %}
 
-                <div class="icone-etapa">
-                    ✓
+                    </div>
+
+                    <div class="texto-etapa">
+
+                        <strong>
+                            Saiu para Entrega
+                        </strong>
+
+                        {% if pedido.status == "saiu_entrega" %}
+
+                            <span class="etapa-atual-texto">
+                                Etapa atual
+                            </span>
+
+                        {% elif pedido.status == "entregue" %}
+
+                            <span>
+                                Concluído
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                Aguardando
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
 
-                <div class="conteudo-etapa">
 
-                    <strong>
-                        Entregue
-                    </strong>
+                <div
+                    class="
+                        linha-progresso
 
-                    {% if pedido.status == "entregue" %}
+                        {% if pedido.status == 'entregue' %}
+                            concluida
+                        {% endif %}
+                    "
+                ></div>
 
-                        <span>
-                            Concluído
-                        </span>
 
-                    {% else %}
+                <div
+                    class="
+                        etapa-progresso
 
-                        <span>
-                            Aguardando
-                        </span>
+                        {% if pedido.status == 'entregue' %}
+                            concluida
+                        {% else %}
+                            pendente
+                        {% endif %}
+                    "
+                >
 
-                    {% endif %}
+                    <div class="circulo-etapa">
+
+                        {% if pedido.status == "entregue" %}
+                            ✓
+                        {% else %}
+                            3
+                        {% endif %}
+
+                    </div>
+
+                    <div class="texto-etapa">
+
+                        <strong>
+                            Entregue
+                        </strong>
+
+                        {% if pedido.status == "entregue" %}
+
+                            <span class="etapa-atual-texto">
+                                Pedido concluído
+                            </span>
+
+                        {% else %}
+
+                            <span>
+                                Aguardando
+                            </span>
+
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
